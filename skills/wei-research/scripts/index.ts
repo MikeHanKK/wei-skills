@@ -2,6 +2,8 @@
 // Entry point for multi-model-researcher skill.
 // Requires Bun (https://bun.sh) for native TypeScript execution.
 
+import { readFileSync } from 'fs';
+
 /**
  * Multi-Model Researcher - Main Entry Point
  *
@@ -47,6 +49,8 @@ export interface ResearchOptions {
   depth?: 'simple' | 'tree';
   /** Judge model to use for synthesis (default: 'glm-5') */
   judgeModel?: ModelName;
+  /** Question domain — when 'financial', uses a finance-specific judge prompt */
+  domain?: string;
 }
 
 /**
@@ -80,8 +84,9 @@ export async function research(
   const request: ResearchRequest = {
     query: query.trim(),
     models: options?.models,
-    maxModels: options?.maxModels ?? 2,
+    maxModels: options?.maxModels,
     depth: options?.depth ?? 'simple',
+    domain: options?.domain,
   };
 
   // Create agent with optional client configuration
@@ -141,8 +146,9 @@ export async function researchWithClients(
   const request: ResearchRequest = {
     query: query.trim(),
     models: options?.models,
-    maxModels: options?.maxModels ?? 2,
+    maxModels: options?.maxModels,
     depth: options?.depth ?? 'simple',
+    domain: options?.domain,
   };
 
   // Create agent with custom clients
@@ -331,12 +337,14 @@ Usage:
 Options:
   -h, --help              Show this help message
   -m, --models <models>   Comma-separated list of models (e.g., glm-5,kimi-k2.5)
+  -d, --domain <domain>   Question domain (e.g., financial). When 'financial', uses finance-specific judge.
   -j, --json              Output as JSON
   -v, --verbose           Show detailed output including individual model responses
 
 Examples:
   bun run scripts/index.ts "What are the economic impacts of AI?"
   bun run scripts/index.ts -m glm-5,gpt-5.4 "Explain quantum computing"
+  bun run scripts/index.ts --domain financial "Will the Fed cut rates in 2026?"
   bun run scripts/index.ts --json "Latest AI breakthroughs"
 `);
       process.exit(0);
@@ -345,6 +353,7 @@ Examples:
     // Parse arguments
     let query = '';
     let models: ModelName[] | undefined;
+    let domain: string | undefined;
     let outputJson = false;
     let verbose = false;
 
@@ -356,6 +365,8 @@ Examples:
         if (modelStr) {
           models = modelStr.split(',') as ModelName[];
         }
+      } else if (arg === '-d' || arg === '--domain') {
+        domain = args[++i];
       } else if (arg === '-j' || arg === '--json') {
         outputJson = true;
       } else if (arg === '-v' || arg === '--verbose') {
@@ -385,25 +396,17 @@ Examples:
       }
       console.log('');
 
-      const result = await research(query, { models });
+      const result = await research(query, { models, domain });
 
       if (outputJson) {
         console.log(JSON.stringify(result, null, 2));
       } else if (verbose) {
         console.log(formatResearchResponse(result));
+      } else if (result.reportPath) {
+        // Output report content directly (format defined in judge.txt)
+        console.log(readFileSync(result.reportPath, 'utf-8'));
       } else {
-        if (result.modelSummaries && result.modelSummaries.length > 0) {
-          console.log('Model Summaries:');
-          result.modelSummaries.forEach(s => console.log(`  ${s}`));
-          console.log('');
-        }
         console.log(result.finalAnswer);
-        console.log('');
-        console.log(`Confidence: ${(result.confidence * 100).toFixed(1)}%`);
-        console.log(`Models: ${result.modelsUsed.join(', ')}`);
-        if (result.warning) {
-          console.log(`Warning: ${result.warning}`);
-        }
       }
 
       process.exit(0);

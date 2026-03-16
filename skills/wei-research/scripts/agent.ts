@@ -5,7 +5,7 @@
  * Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer.
  */
 
-import { readFileSync } from 'fs';
+import { readFileSync, mkdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { BailianClient, OpenRouterClient, OpenAICompliantClient } from './clients/index.js';
@@ -15,6 +15,8 @@ import type { ChatMessage, ChatCompletionResponse } from './clients/bailian.js';
 interface ConfigFile {
   judge_model: string;
   max_models: number;
+  max_tokens: number;
+  max_tokens_judge: number;
   depth: string;
   models: Record<string, {
     provider: string;
@@ -65,6 +67,8 @@ export interface ResearchRequest {
   models?: ModelName[];
   maxModels?: number;
   depth?: 'simple' | 'tree';
+  /** Question domain — when 'financial', uses a finance-specific judge prompt */
+  domain?: string;
 }
 
 /** Normalized model response */
@@ -89,12 +93,8 @@ export interface ResearchResponse {
   modelsUsed: ModelName[];
   modelsFailed?: FailedModel[];
   answers: NormalizedResponse[];
-  modelSummaries?: string[];
-  finalAnswer: string;
-  confidence: number;
-  consensus?: string[];
-  disagreements?: string[];
-  reasoning?: string;
+  reportPath?: string;
+  judgeRaw?: string;
   warning?: string;
   error?: string;
 }
@@ -102,16 +102,12 @@ export interface ResearchResponse {
 /** Router output */
 interface RouterOutput {
   models: ModelName[];
+  domain?: string | null;
 }
 
 /** Judge output */
 interface JudgeOutput {
-  modelSummaries: string[];
-  consensus: string[];
-  disagreements: string[];
-  finalAnswer: string;
-  confidence: number;
-  reasoning: string;
+  raw: string;
 }
 
 /** Model configuration */
@@ -132,11 +128,14 @@ const DEFAULT_MODELS: string[] = Object.keys(appConfig.models).slice(0, appConfi
 /** Maximum query length */
 const MAX_QUERY_LENGTH = 4000;
 
-/** Confidence threshold for critique pass */
-const CRITIQUE_THRESHOLD = 0.6;
-
-/** Judge prompt template */
+/** Judge prompt template (general) */
 const JUDGE_PROMPT_TEMPLATE = loadPrompt('judge');
+
+/** Judge prompt template (financial) */
+const JUDGE_FINANCIAL_PROMPT_TEMPLATE = loadPrompt('judge_financial');
+
+/** Router prompt template */
+const ROUTER_PROMPT_TEMPLATE = loadPrompt('router');
 
 /**
  * Multi-Model Researcher Agent
@@ -166,19 +165,32 @@ export class ResearchAgent {
    */
   async research(request: ResearchRequest): Promise<ResearchResponse> {
     const startTime = Date.now();
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 
     try {
       // Step 1: Input sanitization
       const sanitizedQuery = this.sanitizeInput(request.query);
       console.log(`[ResearchAgent] Query sanitized in ${Date.now() - startTime}ms`);
 
-      // Step 2: Router - select models (or use provided models)
-      const selectedModels = request.models ?? await this.router(sanitizedQuery, request.maxModels);
+      // Step 2: Router - select models and domain (or use provided models)
+      let selectedModels: ModelName[];
+      let domain: string | undefined = request.domain;
+      if (request.models) {
+        selectedModels = request.models;
+      } else {
+        const routerResult = await this.router(sanitizedQuery, request.maxModels ?? appConfig.max_models);
+        selectedModels = routerResult.models;
+        // Use router-provided domain only if caller didn't specify one
+        if (!domain) domain = routerResult.domain;
+      }
       console.log(`[ResearchAgent] Models selected: ${selectedModels.join(', ')}`);
 
       // Step 3: Parallel execution - query all models
       const modelResponses = await this.executeParallel(selectedModels, sanitizedQuery);
       console.log(`[ResearchAgent] Parallel execution completed in ${Date.now() - startTime}ms`);
+
+      // Save each model's response to intermediate/
+      this.saveModelResponses(modelResponses, selectedModels, timestamp);
 
       // Check if all models failed
       const successfulResponses = modelResponses.filter(r => r !== null) as NormalizedResponse[];
@@ -206,30 +218,19 @@ export class ResearchAgent {
       }
 
       // Step 4: Judge - synthesize responses
-      const judgeResult = await this.judge(sanitizedQuery, successfulResponses);
+      const finalResult = await this.judge(sanitizedQuery, successfulResponses, timestamp, domain);
       console.log(`[ResearchAgent] Judge synthesis completed in ${Date.now() - startTime}ms`);
 
-      // Step 5: Critique pass if confidence is low
-      let finalResult = judgeResult;
-      if (judgeResult.confidence < CRITIQUE_THRESHOLD && successfulResponses.length >= 2) {
-        console.log(`[ResearchAgent] Confidence low (${judgeResult.confidence}), triggering critique pass`);
-        const critiqueResult = await this.critiquePass(sanitizedQuery, successfulResponses);
-        // Re-run judge with critique
-        finalResult = await this.judge(sanitizedQuery, successfulResponses, critiqueResult);
-      }
-
       // Build response
+      const reportPath = this.saveReport(sanitizedQuery, finalResult.raw, successfulResponses, timestamp);
+
       const response: ResearchResponse = {
         query: sanitizedQuery,
         modelsUsed: successfulResponses.map(r => r.model),
         modelsFailed: failedModels.length > 0 ? failedModels : undefined,
         answers: successfulResponses,
-        modelSummaries: finalResult.modelSummaries.length > 0 ? finalResult.modelSummaries : undefined,
-        finalAnswer: finalResult.finalAnswer,
-        confidence: finalResult.confidence,
-        consensus: finalResult.consensus,
-        disagreements: finalResult.disagreements,
-        reasoning: finalResult.reasoning,
+        reportPath,
+        judgeRaw: finalResult.raw,
       };
 
       if (failedModels.length > 0) {
@@ -286,29 +287,12 @@ export class ResearchAgent {
   }
 
   /**
-   * Router - select best models for the query
+   * Router - select best models and domain for the query
    */
-  private async router(query: string, maxModels: number = 2): Promise<ModelName[]> {
-    const routerPrompt = `You are an AI model router.
-
-Available models:
-- glm-5          — strong reasoning and analysis
-- kimi-k2.5      — strong knowledge retrieval and long context
-- minimax-m2.5   — strong creative and open-ended reasoning
-- gpt-5.4        — strong coding and technical synthesis
-
-Select the best two models to answer the user's question.
-
-If the question type is ambiguous or does not clearly match a model's strengths,
-default to: ["glm-5", "kimi-k2.5"]
-
-User Question:
-${query}
-
-Return JSON only. No explanation, no preamble:
-{
-  "models": ["model1", "model2"]
-}`;
+  private async router(query: string, maxModels: number = 2): Promise<{ models: ModelName[]; domain?: string }> {
+    const routerPrompt = ROUTER_PROMPT_TEMPLATE
+      .replace(/\{\{maxModels\}\}/g, String(maxModels))
+      .replace('{{query}}', query);
 
     try {
       const messages: ChatMessage[] = [
@@ -324,24 +308,30 @@ Return JSON only. No explanation, no preamble:
       if (jsonMatch) {
         const parsed: RouterOutput = JSON.parse(jsonMatch[0]);
         if (Array.isArray(parsed.models) && parsed.models.length > 0) {
-          // Validate and limit models
+          // Validate models
           const validModels = parsed.models
-            .filter((m): m is ModelName => m in MODEL_REGISTRY)
-            .slice(0, maxModels);
+            .filter((m): m is ModelName => m in MODEL_REGISTRY);
 
           if (validModels.length > 0) {
-            return validModels;
+            // Pad with default models if router returned fewer than maxModels
+            const padded = [...validModels];
+            for (const m of DEFAULT_MODELS) {
+              if (padded.length >= maxModels) break;
+              if (!padded.includes(m)) padded.push(m);
+            }
+            const domain = parsed.domain ?? undefined;
+            return { models: padded.slice(0, maxModels), domain: domain || undefined };
           }
         }
       }
 
       // Fallback to default models
       console.log('[ResearchAgent] Router failed, using default models');
-      return DEFAULT_MODELS.slice(0, maxModels);
+      return { models: DEFAULT_MODELS.slice(0, maxModels) };
 
     } catch (error) {
       console.error('[ResearchAgent] Router error:', error);
-      return DEFAULT_MODELS.slice(0, maxModels);
+      return { models: DEFAULT_MODELS.slice(0, maxModels) };
     }
   }
 
@@ -456,7 +446,7 @@ Uncertainties: [Brief note on what you are unsure about, or "None"]`;
     options?: { maxTokens?: number }
   ): Promise<ChatCompletionResponse> {
     const config = MODEL_REGISTRY[model];
-    const maxTokens = options?.maxTokens ?? 2000;
+    const maxTokens = options?.maxTokens ?? appConfig.max_tokens;
 
     switch (config.provider) {
       case 'bailian':
@@ -488,7 +478,8 @@ Uncertainties: [Brief note on what you are unsure about, or "None"]`;
     model: ModelName,
     response: ChatCompletionResponse
   ): NormalizedResponse {
-    const content = response.choices[0]?.message?.content ?? '';
+    const message = response.choices[0]?.message;
+    const content = message?.content ?? (message as any)?.reasoning ?? '';
 
     // Parse the structured response
     const summaryMatch = content.match(/Summary:\s*\n?([^\n]+(?:\n(?!(?:Key Points:|Sources:|Confidence:|Uncertainties:))[^\n]+)*)/i);
@@ -533,7 +524,8 @@ Uncertainties: [Brief note on what you are unsure about, or "None"]`;
   private async judge(
     query: string,
     responses: NormalizedResponse[],
-    critique?: string
+    timestamp: string,
+    domain?: string
   ): Promise<JudgeOutput> {
     const modelResponsesText = responses.map(r => `
 Model: ${r.model}
@@ -542,18 +534,17 @@ Key Points: ${r.keyPoints.join(', ')}
 Confidence: ${r.confidence}
 `).join('\n---\n');
 
-    const critiqueSection = critique ? `\n\nCritique Analysis:\n${critique}` : '';
-
-    const judgePrompt = JUDGE_PROMPT_TEMPLATE
+    const template = domain === 'financial' ? JUDGE_FINANCIAL_PROMPT_TEMPLATE : JUDGE_PROMPT_TEMPLATE;
+    const judgePrompt = template
       .replace('{{query}}', query)
       .replace('{{modelResponsesText}}', modelResponsesText)
-      .replace('{{critiqueSection}}', critiqueSection);
+      .replace('{{critiqueSection}}', '');
 
     const messages: ChatMessage[] = [
       { role: 'user', content: judgePrompt },
     ];
 
-    const response = await this.callModel(this.judgeModel, messages, { maxTokens: 4000 });
+    const response = await this.callModel(this.judgeModel, messages, { maxTokens: appConfig.max_tokens_judge });
     if (!response.choices || response.choices.length === 0) {
       console.error('[ResearchAgent] Judge response missing choices:', JSON.stringify(response).substring(0, 500));
       throw new Error('Judge model returned invalid response (no choices)');
@@ -562,113 +553,92 @@ Confidence: ${r.confidence}
     const message = response.choices[0]?.message;
     const content = message?.content ?? (message as any)?.reasoning ?? '';
 
-    // Parse judge response
-    const modelSummariesMatch = content.match(/Model Summaries:\s*\n?((?:- [^\n]*\n?)+)/i);
-    const consensusMatch = content.match(/Consensus:\s*\n?((?:- [^\n]*\n?)+)/i);
-    const disagreementsMatch = content.match(/Disagreements:\s*\n?((?:- [^\n]*\n?)+)/i);
-    const finalAnswerMatch = content.match(/Final Answer:\s*\n?([^\n]+(?:\n(?!(?:Confidence:|Reasoning:|Model Summaries:))[^\n]+)*)/i);
-    const confidenceMatch = content.match(/Confidence:\s*([0-9.]+)/i);
-    const reasoningMatch = content.match(/Reasoning:\s*\n?([^\n]+(?:\n[^\n]+)*)/i);
+    // Save raw judge response
+    this.saveIntermediate(`${this.judgeModel}-judge-raw`, content, timestamp);
 
-    const modelSummaries = modelSummariesMatch
-      ? modelSummariesMatch[1]
-          .split('\n')
-          .map(line => line.replace(/^- /, '').trim())
-          .filter(line => line.length > 0)
-      : [];
-
-    const consensus = consensusMatch
-      ? consensusMatch[1]
-          .split('\n')
-          .map(line => line.replace(/^- /, '').trim())
-          .filter(line => line.length > 0)
-      : [];
-
-    const disagreements = disagreementsMatch
-      ? disagreementsMatch[1]
-          .split('\n')
-          .map(line => line.replace(/^- /, '').trim())
-          .filter(line => line.length > 0)
-      : [];
-
-    const finalAnswer = finalAnswerMatch ? finalAnswerMatch[1].trim() : content;
-
-    const confidence = confidenceMatch
-      ? Math.min(1, Math.max(0, parseFloat(confidenceMatch[1])))
-      : 0.5;
-
-    const reasoning = reasoningMatch ? reasoningMatch[1].trim() : '';
-
-    return {
-      modelSummaries,
-      consensus,
-      disagreements,
-      finalAnswer,
-      confidence,
-      reasoning,
-    };
+    return { raw: content };
   }
 
   /**
-   * Critique pass - surface weaknesses when confidence is low
+   * Save each model's response to intermediate/<model>-<timestamp>.txt
    */
-  private async critiquePass(
-    query: string,
-    responses: NormalizedResponse[]
-  ): Promise<string> {
-    if (responses.length < 2) {
-      return '';
-    }
+  private saveModelResponses(
+    modelResponses: (NormalizedResponse | null)[],
+    selectedModels: ModelName[],
+    timestamp: string
+  ): void {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const dir = join(__dirname, '..', 'intermediate');
+    mkdirSync(dir, { recursive: true });
 
-    const [modelA, modelB] = responses;
-
-    const critiquePrompt = `You are a critical research reviewer.
-
-Two AI-generated answers are provided below. Your task is to identify weaknesses
-and help determine which is more reliable.
-
-Instructions:
-1. Identify factual claims in each answer that may be incorrect or unverifiable.
-2. Identify logical gaps, missing context, or overconfident assertions.
-3. Note if either answer appears to fabricate sources or statistics.
-4. Recommend which answer is more reliable, or state if both are unreliable.
-
-Answer A (from ${modelA.model}):
-${modelA.summary}
-
-Answer B (from ${modelB.model}):
-${modelB.summary}
-
-Return your response in exactly this format:
-
-Weaknesses of A:
-- [Weakness 1]
-- [Weakness 2, or "None identified"]
-
-Weaknesses of B:
-- [Weakness 1]
-- [Weakness 2, or "None identified"]
-
-Fabrication Risk:
-A: [Low / Medium / High] — [brief reason]
-B: [Low / Medium / High] — [brief reason]
-
-More Reliable Answer: [A / B / Neither]
-Reasoning: [Brief explanation]`;
-
-    const messages: ChatMessage[] = [
-      { role: 'user', content: critiquePrompt },
-    ];
-
-    try {
-      const response = await this.callModel(this.judgeModel, messages, { maxTokens: 4000 });
-      const message = response.choices?.[0]?.message;
-      return message?.content ?? (message as any)?.reasoning ?? '';
-    } catch (error) {
-      console.error('[ResearchAgent] Critique pass error:', error);
-      return '';
-    }
+    modelResponses.forEach((response, index) => {
+      if (response) {
+        const filename = `${response.model}-${timestamp}.txt`;
+        const filepath = join(dir, filename);
+        const content = [
+          `Model: ${response.model}`,
+          `Timestamp: ${timestamp}`,
+          `Query: [saved in report]`,
+          ``,
+          `=== Summary ===`,
+          response.summary,
+          ``,
+          `=== Key Points ===`,
+          ...response.keyPoints.map(p => `- ${p}`),
+          ``,
+          `=== Confidence ===`,
+          `${response.confidence}`,
+          ``,
+          `=== Raw Response ===`,
+          response.rawResponse || '',
+        ].join('\n');
+        writeFileSync(filepath, content, 'utf-8');
+        console.log(`[ResearchAgent] Saved: intermediate/${filename}`);
+      }
+    });
   }
+
+  /**
+   * Save content to intermediate/<name>-<timestamp>.txt
+   */
+  private saveIntermediate(name: string, content: string, timestamp: string): void {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const dir = join(__dirname, '..', 'intermediate');
+    mkdirSync(dir, { recursive: true });
+
+    const filename = `${name}-${timestamp}.txt`;
+    const filepath = join(dir, filename);
+    writeFileSync(filepath, content, 'utf-8');
+    console.log(`[ResearchAgent] Saved: intermediate/${filename}`);
+  }
+
+  /**
+   * Save judge result to reports/report-<timestamp>.txt
+   */
+  private saveReport(
+    query: string,
+    judgeRaw: string,
+    responses: NormalizedResponse[],
+    timestamp: string
+  ): string {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const dir = join(__dirname, '..', 'reports');
+    mkdirSync(dir, { recursive: true });
+
+    const filepath = join(dir, `report-${timestamp}.txt`);
+    const content = [
+      `Query: ${query}`,
+      `Timestamp: ${timestamp}`,
+      `Models: ${responses.map(r => r.model).join(', ')}`,
+      ``,
+      judgeRaw,
+    ].join('\n');
+
+    writeFileSync(filepath, content, 'utf-8');
+    console.log(`[ResearchAgent] Saved: reports/report-${timestamp}.txt`);
+    return filepath;
+  }
+
 }
 
 /**

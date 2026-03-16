@@ -1,16 +1,16 @@
 ---
-name: multi-model-researcher
-version: 1.1.0
+name: parallel-researcher
+version: 1.2.0
 description: Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer
 ---
 
 # Multi-Model Researcher Skill
 
-**Version:** 1.1.0 | **Last updated:** 2026-03-10
+**Version:** 1.2.0 | **Last updated:** 2026-03-16
 
 ## Overview
 
-The **multi-model-researcher** skill queries multiple large language models in parallel and synthesizes their responses into a single high-quality answer.
+The **parallel-researcher** skill queries multiple large language models in parallel and synthesizes their responses into a single high-quality answer.
 
 This skill is designed for:
 
@@ -32,21 +32,80 @@ Instead of relying on a single model, this skill collects answers from multiple 
 ## Usage
 
 ```bash
-bun run scripts/index.ts --query "your question"
+bun run scripts/index.ts "your question"
+bun run scripts/index.ts --domain financial "美联储2026年会降息吗？"
 ```
+
+### Domain-Specific Judges
+
+When `--domain financial` is specified, the judge step uses a finance-specialized prompt that produces:
+
+- **Base Case Analysis** — probabilistic scenario with data-driven reasoning
+- **Bull Case** — arguments for upside scenario
+- **Bear Case** — arguments for downside scenario
+- **Key Variables / Risks** — macro events, earnings, policy changes, market sentiment
+
+This avoids deterministic predictions and enforces probability ranges (e.g., 60–70% likelihood). Use it for investment, macroeconomic, and market analysis questions.
+
+---
+# Supported Models
+
+All models are accessed via OpenRouter. Answering models may use live retrieval
+depending on the provider configuration.
+
+The system selects **2–3 answering models** in parallel and uses a **judge model**
+to synthesize the final response.
 
 ---
 
-# Supported Models
+## Answering Models
 
-| Model | Strengths |
-|---|---|
-| **glm-5** | Reasoning, analysis, default judge |
-| **kimi-k2.5** | Knowledge retrieval, long context |
-| **qwen3-max** | Coding, synthesis |
-| **minimax-m2.5** | Creative reasoning |
+| Model | Provider ID | Retrieval | Best For |
+|---|---|---|---|
+| **kimi-k2.5** | `moonshotai/kimi-k2.5:online` | ✅ Web | Current events, long-context research, factual queries, document analysis |
+| **qwen3.5** | `qwen/qwen3.5-35b-a3b:online` | ✅ Web | Coding, structured output, technical explanations, math and science |
+| **minimax-m2.5** | `minimax/minimax-m2.5:online` | ✅ Web | Reasoning-heavy tasks, synthesis, creative writing, long-form analysis |
+| **gpt-5.4** | `openai/gpt-5.4:online` | ✅ Web | Broad capability, balanced reasoning, ambiguous queries, general fallback |
+| **grok-4.1** | `x-ai/grok-4.1-fast:online` | ✅ X (Twitter) | Social sentiment, trending topics, real-time public opinion |
 
-A router automatically selects the most appropriate models based on the query type.
+---
+
+## Judge Models
+
+Judge models **synthesize answers already in context** and normally do not require retrieval.
+
+| Model | Provider ID | Retrieval | Role |
+|---|---|---|---|
+| **glm-5-judge** | `z-ai/glm-5` | ❌ | Default synthesis judge |
+| **qwen3.5-judge** | `qwen/qwen3.5-35b-a3b` | ❌ | Fallback judge if glm-5-judge unavailable |
+
+Judge models are **independent of answering models** and may synthesize outputs
+from any answering pool.
+
+---
+
+## Model Selection
+
+**Single source of truth:** [`prompts/router.txt`](prompts/router.txt) — contains the complete routing rules
+(query type → models → domain → signal words → principles).
+
+The built-in router uses these rules automatically. As the main conversation model, you can also
+**read `prompts/router.txt`** to classify the query and pass `models` + `domain` directly,
+bypassing the built-in router and saving ~10s latency.
+
+### Quick Reference
+
+| Query Type | Domain | Models | Examples |
+|---|---|---|---|
+| Financial / markets | `financial` | kimi-k2.5, gpt-5.4, qwen3.5 | "美联储降息", "stock price", "inflation" |
+| Current events | — | kimi-k2.5, grok-4.1, gpt-5.4 | "latest news", "what happened today" |
+| Technical / coding | — | qwen3.5, gpt-5.4, minimax-m2.5 | "implement algorithm", "debug code" |
+| Deep analysis | — | kimi-k2.5, minimax-m2.5, gpt-5.4 | "compare X and Y", "why does..." |
+| Social / sentiment | — | grok-4.1, kimi-k2.5, minimax-m2.5 | "trending", "people think" |
+| Other / default | — | kimi-k2.5, minimax-m2.5, gpt-5.4 | *(fallback)* |
+
+> For full signal words, routing principles, and detailed rules, see `prompts/router.txt`.
+
 
 ---
 
@@ -74,15 +133,17 @@ A router automatically selects the most appropriate models based on the query ty
 |---|---|---|---|
 | `query` | string | Yes | The research question to analyze |
 | `models` | array[string] | No | Force specific models (bypasses router) |
-| `max_models` | number | No | Cap on number of models queried (default: 2) |
+| `maxModels` | number | No | Cap on number of models queried (default: 2) |
 | `depth` | string | No | `"simple"` or `"tree"` (see Depth Modes below) |
+| `judgeModel` | string | No | Override the default judge model (default: `"glm-5"`) |
+| `domain` | string | No | Question domain. `"financial"` uses a finance-specific judge prompt with scenario analysis (Bull/Bear/Base Case) |
 
 **Example:**
 
 ```json
 {
   "query": "What are the economic impacts of AI agents?",
-  "max_models": 3
+  "maxModels": 3
 }
 ```
 
@@ -92,39 +153,6 @@ A router automatically selects the most appropriate models based on the query ty
 |---|---|---|
 | `simple` (default) | Single-pass: each model answers the query once, judge synthesizes | Most research questions |
 | `tree` | Multi-pass: follow-up sub-queries are generated and answered before synthesis | Complex topics requiring decomposition (adds ~10–20s latency) |
-
----
-
-# Execution Flow
-
-```
-User Query
-   │
-   ▼
-Input Sanitization
-   │
-   ▼
-Router  ──(failure)──▶  Default model pair
-   │
-   ▼
-Selected Models
-(e.g. glm-5, kimi-k2.5)
-   │
-   ▼
-Parallel Inference  ──(partial failure)──▶  Continue with available responses
-   │
-   ▼
-Collected Answers
-   │
-   ▼
-Judge Model (glm-5)
-   │
-   ▼  (confidence < 0.6?)
-   ├──▶  Critique pass (optional)
-   │
-   ▼
-Final Synthesized Answer
-```
 
 ---
 
@@ -186,12 +214,12 @@ Final Synthesized Answer
 
 | Stage | Typical Latency |
 |---|---|
-| Router | ~1s |
-| Model inference (parallel) | 5–10s |
-| Judge synthesis | 2–3s |
-| **Total** | **8–15s** |
+| Router | ~1s (skipped when `models` passed directly) |
+| Model inference (parallel) | 20–100s |
+| Judge synthesis | 20-60s |
+| **Total** | **40–120s** |
 
-Timeout per model: `20–25 seconds`
+Timeout per model: `60-120 seconds`
 Retries per model: `1`
 
 ---
@@ -279,5 +307,6 @@ Confidence: 0.87
 
 | Version | Changes |
 |---|---|
+| 1.2.0 | Added `domain` parameter with `financial` support — finance-specific judge prompt with Bull/Bear/Base Case scenario analysis |
 | 1.1.0 | Added depth mode documentation, error output schemas, confidence scale clarification, security notes, quality evaluation criteria, cost note |
 | 1.0.0 | Initial release |
