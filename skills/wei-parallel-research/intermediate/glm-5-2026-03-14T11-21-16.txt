@@ -1,0 +1,31 @@
+Model: glm-5
+Timestamp: 2026-03-14T11-21-16
+Query: [saved in report]
+
+=== Summary ===
+Quantum computing is a multidisciplinary field comprising aspects of computer science, physics, and mathematics that utilizes quantum mechanics to solve complex problems faster than classical computers. Unlike classical computers, which encode information in binary bits (0 or 1), quantum computers use quantum bits (qubits). Qubits leverage quantum phenomena such as superposition and entanglement to process vast amounts of data simultaneously, offering exponential speedups for specific problem types like cryptography and molecular simulation.
+
+=== Key Points ===
+- **Qubits vs. Bits:** Quantum computers use qubits that can exist in a state of superposition (representing both 0 and 1 simultaneously), whereas classical computers use bits restricted to a single state.
+- **Entanglement:** This phenomenon links qubits such that the state of one instantly influences another, allowing for complex computational operations that are impossible for classical systems.
+- **Specific Applications:** Quantum advantage is most promising in fields requiring massive parallel processing, such as drug discovery, materials science, optimization logistics, and breaking current encryption standards.
+- **Current Limitations:** The technology is currently in the "Noisy Intermediate-Scale Quantum" (NISQ) era, limited by hardware instability, error rates, and the difficulty of maintaining quantum coherence.
+
+=== Confidence ===
+0.98
+
+=== Raw Response ===
+Summary:
+Quantum computing is a multidisciplinary field comprising aspects of computer science, physics, and mathematics that utilizes quantum mechanics to solve complex problems faster than classical computers. Unlike classical computers, which encode information in binary bits (0 or 1), quantum computers use quantum bits (qubits). Qubits leverage quantum phenomena such as superposition and entanglement to process vast amounts of data simultaneously, offering exponential speedups for specific problem types like cryptography and molecular simulation.
+
+Key Points:
+- **Qubits vs. Bits:** Quantum computers use qubits that can exist in a state of superposition (representing both 0 and 1 simultaneously), whereas classical computers use bits restricted to a single state.
+- **Entanglement:** This phenomenon links qubits such that the state of one instantly influences another, allowing for complex computational operations that are impossible for classical systems.
+- **Specific Applications:** Quantum advantage is most promising in fields requiring massive parallel processing, such as drug discovery, materials science, optimization logistics, and breaking current encryption standards.
+- **Current Limitations:** The technology is currently in the "Noisy Intermediate-Scale Quantum" (NISQ) era, limited by hardware instability, error rates, and the difficulty of maintaining quantum coherence.
+
+Sources (only if you are certain they exist):
+- Nielsen, M. A., & Chuang, I. L. (2010). *Quantum Computation and Quantum Information*. Cambridge University Press.
+
+Confidence: 0.98
+Uncertainties: None regarding the fundamental definition; however, the timeline for achieving fault-tolerant, commercially viable quantum computers remains speculative.

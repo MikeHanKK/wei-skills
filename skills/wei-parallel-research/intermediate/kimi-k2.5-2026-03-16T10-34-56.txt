@@ -1,0 +1,34 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T10-34-56
+Query: [saved in report]
+
+=== Summary ===
+Ginseng may improve sleep quality, but primarily for specific types of insomnia associated with qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart-kidney qi deficiency. It is not universally effective for all insomnia types, and improper use can actually worsen sleep.
+
+=== Key Points ===
+- TCM-specific efficacy: Most effective for insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency, typically presenting with fatigue, palpitations, and dream-disturbed sleep
+- Risk of adverse effects: Overdose or long-term use may cause hypertension, nervous sensitivity, and diarrhea, potentially exacerbating sleep problems rather than improving them
+- Clinical formulations: Compound preparations like Ginseng Guipi Pill (人参归脾丸) are commonly used for spleen-heart deficiency insomnia, while single herb use requires careful dosing (typically 1–3g daily)
+- Research limitations: While TCM clinical studies support benefits for specific deficiency patterns, high-quality evidence for general insomnia treatment remains limited
+
+=== Confidence ===
+0.75
+
+=== Raw Response ===
+ Summary:
+Ginseng may improve sleep quality, but primarily for specific types of insomnia associated with qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart-kidney qi deficiency. It is not universally effective for all insomnia types, and improper use can actually worsen sleep.
+
+Key Points:
+- TCM-specific efficacy: Most effective for insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency, typically presenting with fatigue, palpitations, and dream-disturbed sleep
+- Risk of adverse effects: Overdose or long-term use may cause hypertension, nervous sensitivity, and diarrhea, potentially exacerbating sleep problems rather than improving them
+- Clinical formulations: Compound preparations like Ginseng Guipi Pill (人参归脾丸) are commonly used for spleen-heart deficiency insomnia, while single herb use requires careful dosing (typically 1–3g daily)
+- Research limitations: While TCM clinical studies support benefits for specific deficiency patterns, high-quality evidence for general insomnia treatment remains limited
+
+Sources (only if you are certain they exist):
+- [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html)
+- [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html)
+- [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html)
+- [jstcm.cn](https://www.jstcm.cn/article/doi/10.19844/j.cnki.1672-397X.2021.02.011)
+
+Confidence: 0.75
+Uncertainties: Efficacy is highly dependent on correct TCM pattern differentiation (辨证论治); ginseng may be ineffective or harmful for insomnia caused by excess heat or yin deficiency with fire. Optimal dosing for sleep improvement lacks standardization in clinical trials.

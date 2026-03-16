@@ -1,0 +1,37 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T10-00-37
+Query: [saved in report]
+
+=== Summary ===
+Yes, ginseng (人参) may help with sleep, but primarily for specific types of insomnia related to qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart qi deficiency. It is not universally effective for all insomnia types and can worsen sleep if misused.
+
+=== Key Points ===
+- **Pattern-specific efficacy**: Ginseng is most effective for insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency, characterized by symptoms like dream-disturbed sleep, forgetfulness, and fatigue [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html) [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Mechanism**: It contains "安神益智" (calming the spirit and improving intelligence) properties that nourish heart blood and stabilize the spirit when deficiency patterns are present [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Contraindications**: Not suitable for insomnia accompanied by yin deficiency with fire (symptoms like flushed face, dry mouth, constipation), high blood pressure, or excess heat patterns [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Risk of adverse effects**: Overuse or long-term use can cause nervous sensitivity, elevated blood pressure, or diarrhea, which may paradoxically worsen sleep quality [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Clinical formulations**: Compound preparations like Ginseng Spleen-Returning Pill (人参归脾丸) are specifically used for spleen-heart deficiency insomnia [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html).
+
+=== Confidence ===
+0.8
+
+=== Raw Response ===
+Summary:
+Yes, ginseng (人参) may help with sleep, but primarily for specific types of insomnia related to qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart qi deficiency. It is not universally effective for all insomnia types and can worsen sleep if misused.
+
+Key Points:
+- **Pattern-specific efficacy**: Ginseng is most effective for insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency, characterized by symptoms like dream-disturbed sleep, forgetfulness, and fatigue [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html) [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Mechanism**: It contains "安神益智" (calming the spirit and improving intelligence) properties that nourish heart blood and stabilize the spirit when deficiency patterns are present [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Contraindications**: Not suitable for insomnia accompanied by yin deficiency with fire (symptoms like flushed face, dry mouth, constipation), high blood pressure, or excess heat patterns [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Risk of adverse effects**: Overuse or long-term use can cause nervous sensitivity, elevated blood pressure, or diarrhea, which may paradoxically worsen sleep quality [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Clinical formulations**: Compound preparations like Ginseng Spleen-Returning Pill (人参归脾丸) are specifically used for spleen-heart deficiency insomnia [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html).
+
+Sources:
+- [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html)
+- [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html)
+- [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html)
+- [jstcm.cn](https://www.jstcm.cn/article/doi/10.19844/j.cnki.1672-397X.2021.02.011)
+
+Confidence: 0.8
+
+Uncertainties: Effectiveness depends heavily on accurate TCM pattern differentiation; limited evidence for insomnia types outside of qi-deficiency patterns; optimal dosage and duration for sleep benefits require further standardized research.

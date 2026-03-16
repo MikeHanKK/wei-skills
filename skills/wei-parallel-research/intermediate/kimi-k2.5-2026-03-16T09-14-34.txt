@@ -1,0 +1,35 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T09-14-34
+Query: [saved in report]
+
+=== Summary ===
+Based on current military assessments and official statements, the conflict is expected to last at least **3 months (through end of May 2026)** and potentially extend to **100 days or longer** (into September). The war has already exceeded initial U.S. predictions of 4–5 weeks, with the U.S. Central Command now preparing for operations extending at least 100 days. Iran claims it can sustain high-intensity warfare for at least 6 months, while analysts identify the 3-month mark as a critical threshold—if Iran can still strike effectively after this point and the U.S. has not withdrawn, the war could prolong significantly or escalate to full-scale ground invasion.
+
+=== Key Points ===
+- **Timeline revised upward**: U.S. shifted from initial 4–5 week estimate to at least 100 days; Chinese analysts predict conflict continues until at least end of May (3 months).
+- **Iranian sustainability claims**: Iran states it can maintain high-intensity operations for at least 6 months through distributed command systems and underground industrial production.
+- **Three-month critical node**: Expert assessments suggest if Iran retains missile strike capability after 3 months and U.S. forces remain engaged, the conflict will likely extend into a prolonged war of attrition or escalate to ground operations.
+- **Escalation risk**: Conflict has already moved from "limited conflict" to "medium conflict" targeting Iran's war potential; conditions for full-scale war including ground invasion are approaching threshold levels with both sides preparing for sustained combat.
+
+=== Confidence ===
+0.85
+
+=== Raw Response ===
+Summary:
+Based on current military assessments and official statements, the conflict is expected to last at least **3 months (through end of May 2026)** and potentially extend to **100 days or longer** (into September). The war has already exceeded initial U.S. predictions of 4–5 weeks, with the U.S. Central Command now preparing for operations extending at least 100 days. Iran claims it can sustain high-intensity warfare for at least 6 months, while analysts identify the 3-month mark as a critical threshold—if Iran can still strike effectively after this point and the U.S. has not withdrawn, the war could prolong significantly or escalate to full-scale ground invasion.
+
+Key Points:
+- **Timeline revised upward**: U.S. shifted from initial 4–5 week estimate to at least 100 days; Chinese analysts predict conflict continues until at least end of May (3 months).
+- **Iranian sustainability claims**: Iran states it can maintain high-intensity operations for at least 6 months through distributed command systems and underground industrial production.
+- **Three-month critical node**: Expert assessments suggest if Iran retains missile strike capability after 3 months and U.S. forces remain engaged, the conflict will likely extend into a prolonged war of attrition or escalate to ground operations.
+- **Escalation risk**: Conflict has already moved from "limited conflict" to "medium conflict" targeting Iran's war potential; conditions for full-scale war including ground invasion are approaching threshold levels with both sides preparing for sustained combat.
+
+Sources:
+- [finance.sina.com.cn](https://finance.sina.com.cn/jjxw/2026-03-15/doc-inhqzkiw9841306.shtml)
+- [sina.cn](https://www.sina.cn/news/detail/5274961405280565.html)
+- [k.sina.com.cn](https://k.sina.com.cn/article_7857201856_1d45362c0019032myc.html)
+- [news.qq.com](https://news.qq.com/rain/a/20260308A05JDO00)
+
+Confidence: 0.85
+
+Uncertainties: Actual duration depends on unpredictable military developments (e.g., initiation of ground war, strategic infrastructure destruction), success of international mediation efforts, domestic political pressures in both the U.S. and Iran, and potential ceasefire negotiations. Iranian claims of 6-month operational sustainability remain unverified against actual combat conditions and logistical constraints.

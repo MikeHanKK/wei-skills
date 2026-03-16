@@ -1,0 +1,31 @@
+Model: glm-5
+Timestamp: 2026-03-14T10-41-10
+Query: [saved in report]
+
+=== Summary ===
+Artificial Intelligence (AI) refers to the simulation of human intelligence processes by computer systems. These processes include learning (the acquisition of information and rules for using the information), reasoning (using rules to reach approximate or definite conclusions), and self-correction. AI is broadly categorized into narrow AI, designed for specific tasks (e.g., facial recognition, internet search engines), and general AI, which refers to systems that possess the ability to perform any intellectual task that a human being can.
+
+=== Key Points ===
+- AI involves the development of algorithms and models that enable computers to perform tasks requiring human-like intelligence.
+- Machine Learning (ML) and Deep Learning (DL) are critical subsets of AI that allow systems to learn from data without being explicitly programmed for every rule.
+- Current applications are dominated by "Narrow AI," whereas "Artificial General Intelligence" (AGI) remains a theoretical goal.
+- Key capabilities include natural language processing, computer vision, and predictive analytics.
+
+=== Confidence ===
+1
+
+=== Raw Response ===
+Summary:
+Artificial Intelligence (AI) refers to the simulation of human intelligence processes by computer systems. These processes include learning (the acquisition of information and rules for using the information), reasoning (using rules to reach approximate or definite conclusions), and self-correction. AI is broadly categorized into narrow AI, designed for specific tasks (e.g., facial recognition, internet search engines), and general AI, which refers to systems that possess the ability to perform any intellectual task that a human being can.
+
+Key Points:
+- AI involves the development of algorithms and models that enable computers to perform tasks requiring human-like intelligence.
+- Machine Learning (ML) and Deep Learning (DL) are critical subsets of AI that allow systems to learn from data without being explicitly programmed for every rule.
+- Current applications are dominated by "Narrow AI," whereas "Artificial General Intelligence" (AGI) remains a theoretical goal.
+- Key capabilities include natural language processing, computer vision, and predictive analytics.
+
+Sources (only if you are certain they exist):
+- Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*.
+
+Confidence: 1.0
+Uncertainties: None

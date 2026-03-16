@@ -1,0 +1,35 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T10-25-58
+Query: [saved in report]
+
+=== Summary ===
+Yes, ginseng (人参) can help with sleep, but primarily for specific types of insomnia according to Traditional Chinese Medicine (TCM) theory—specifically those caused by heart-spleen deficiency (心脾两虚) or heart qi deficiency (心气不足). It works by replenishing qi and nourishing the heart to calm the spirit (安神益智), but is inappropriate for other patterns of insomnia and may worsen sleep if used incorrectly.
+
+=== Key Points ===
+- **Specific Indications**: Effective for insomnia accompanied by palpitations, forgetfulness, fatigue, and poor appetite caused by heart-spleen deficiency or qi deficiency patterns
+- **Mechanism**: Improves sleep by strengthening spleen function to enhance blood production, thereby nourishing the heart and providing a residence for the spirit (心神)
+- **Contraindications**: Not suitable for yin deficiency with fire (阴虚火旺), high blood pressure, or excessive heat patterns; may cause nervous agitation, elevated blood pressure, and worsened insomnia if misused
+- **Dosage Caution**: Overdose or long-term unsupervised use can lead to adverse effects including insomnia, nervous hypersensitivity, rash, and diarrhea
+
+=== Confidence ===
+0.85
+
+=== Raw Response ===
+Summary:
+Yes, ginseng (人参) can help with sleep, but primarily for specific types of insomnia according to Traditional Chinese Medicine (TCM) theory—specifically those caused by heart-spleen deficiency (心脾两虚) or heart qi deficiency (心气不足). It works by replenishing qi and nourishing the heart to calm the spirit (安神益智), but is inappropriate for other patterns of insomnia and may worsen sleep if used incorrectly.
+
+Key Points:
+- **Specific Indications**: Effective for insomnia accompanied by palpitations, forgetfulness, fatigue, and poor appetite caused by heart-spleen deficiency or qi deficiency patterns
+- **Mechanism**: Improves sleep by strengthening spleen function to enhance blood production, thereby nourishing the heart and providing a residence for the spirit (心神)
+- **Contraindications**: Not suitable for yin deficiency with fire (阴虚火旺), high blood pressure, or excessive heat patterns; may cause nervous agitation, elevated blood pressure, and worsened insomnia if misused
+- **Dosage Caution**: Overdose or long-term unsupervised use can lead to adverse effects including insomnia, nervous hypersensitivity, rash, and diarrhea
+
+Sources:
+- [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html)
+- [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html)
+- [rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html)
+- [cqvip.com](http://dianda.cqvip.com/Qikan/Article/Detail?from=Qikan_Article_Detail&id=673592542)
+
+Confidence: 0.85
+
+Uncertainties: Efficacy depends heavily on correct TCM pattern differentiation (辨证论治); individuals without qi deficiency may experience no benefit or adverse effects. Evidence is based on TCM clinical frameworks rather than Western sleep disorder classifications.

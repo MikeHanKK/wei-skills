@@ -1,0 +1,36 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T09-47-52
+Query: [saved in report]
+
+=== Summary ===
+According to Traditional Chinese Medicine (TCM) theory and clinical observations, ginseng (人参) may help with sleep, but **only for specific types of insomnia**—primarily those caused by qi deficiency patterns such as heart-spleen deficiency or heart-kidney qi deficiency. For these patterns, ginseng is believed to tonify qi and calm the spirit (安神益智). However, it is contraindicated for other patterns (such as yin deficiency with internal heat) and may actually worsen insomnia if used improperly or in excessive doses.
+
+=== Key Points ===
+- **Pattern-specific efficacy**: Ginseng appears effective for insomnia accompanied by qi deficiency symptoms (fatigue, palpitations, poor appetite), but not for insomnia caused by excess heat or yin deficiency [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html) [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Risk of adverse effects**: Overuse or long-term consumption can cause side effects including elevated blood pressure, nervous sensitivity, and diarrhea, which may deteriorate sleep quality [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Formulation matters**: Clinical studies often use ginseng-containing formulas (e.g., Shenwei Mixture or Ren Shen Gui Pi Wan) rather than raw ginseng alone, making it difficult to isolate the effects of single-herb ginseng [jstcm.cn](https://www.jstcm.cn/article/doi/10.19844/j.cnki.1672-397X.2021.02.011) [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html).
+- **Modern evidence ranking**: Meta-analysis of biomedical literature places insomnia relatively low (weight 34.2/100) on the list of conditions effectively treated by ginseng, suggesting moderate or limited evidence compared to other uses [foodwake.cn](https://foodwake.cn/supplement/741).
+
+=== Confidence ===
+0.75
+
+=== Raw Response ===
+Summary:
+According to Traditional Chinese Medicine (TCM) theory and clinical observations, ginseng (人参) may help with sleep, but **only for specific types of insomnia**—primarily those caused by qi deficiency patterns such as heart-spleen deficiency or heart-kidney qi deficiency. For these patterns, ginseng is believed to tonify qi and calm the spirit (安神益智). However, it is contraindicated for other patterns (such as yin deficiency with internal heat) and may actually worsen insomnia if used improperly or in excessive doses.
+
+Key Points:
+- **Pattern-specific efficacy**: Ginseng appears effective for insomnia accompanied by qi deficiency symptoms (fatigue, palpitations, poor appetite), but not for insomnia caused by excess heat or yin deficiency [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html) [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html).
+- **Risk of adverse effects**: Overuse or long-term consumption can cause side effects including elevated blood pressure, nervous sensitivity, and diarrhea, which may deteriorate sleep quality [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html).
+- **Formulation matters**: Clinical studies often use ginseng-containing formulas (e.g., Shenwei Mixture or Ren Shen Gui Pi Wan) rather than raw ginseng alone, making it difficult to isolate the effects of single-herb ginseng [jstcm.cn](https://www.jstcm.cn/article/doi/10.19844/j.cnki.1672-397X.2021.02.011) [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html).
+- **Modern evidence ranking**: Meta-analysis of biomedical literature places insomnia relatively low (weight 34.2/100) on the list of conditions effectively treated by ginseng, suggesting moderate or limited evidence compared to other uses [foodwake.cn](https://foodwake.cn/supplement/741).
+
+Sources:
+- [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html)
+- [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html)
+- [foodwake.cn](https://foodwake.cn/supplement/741)
+- [jstcm.cn](https://www.jstcm.cn/article/doi/10.19844/j.cnki.1672-397X.2021.02.011)
+- [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html)
+
+Confidence: 0.75
+
+Uncertainties: The evidence relies heavily on TCM pattern differentiation rather than modern sleep medicine categories; individual biochemical responses to ginseng vary significantly, and high-quality randomized controlled trials isolating ginseng (as opposed to multi-herb formulas) for insomnia are limited in the provided sources.

@@ -1,0 +1,42 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-14T11-31-02
+Query: [saved in report]
+
+=== Summary ===
+To determine whether major players (主力资金) are accumulating a specific A-share stock during the morning opening session and identify their accumulation strategy, the following specific data fields and indicators are required. These fields capture opening price action, auction dynamics, intraday order flow, and volume characteristics that reveal institutional intent.
+
+=== Key Points ===
+- **Opening Price Gap (开盘价涨跌幅)**: The percentage difference between today's opening price and yesterday's close. High opens (>2-3%) or low opens (<-2%) in specific price zones (bottom range vs. high range) indicate different strategies: high opens in bottom ranges suggest rapid accumulation/shakeouts, while high opens at highs suggest distribution [fupanwang.com](https://www.fupanwang.com/zhishi/8537.html).
+- **Pre-market Auction Volume & Order Distribution (集合竞价成交量与挂单分布)**: The volume transacted during the call auction (9:15-9:25) and the balance between buy/sell orders at upper/lower price limits. Abnormally high auction volume with large sell orders at opening suggests testing pressure or controlled accumulation [fupanwang.com](https://www.fupanwang.com/zhishi/4190.html).
+- **Opening Volume Ratio (开盘量比)**: The ratio of current trading volume to recent average volume. A significantly elevated ratio (>2-3x) at open with controlled price movement indicates active institutional participation [fupanwang.com](https://www.fupanwang.com/zhishi/1826.html).
+- **Level-1/L2 Order Book Characteristics (盘口挂单特征)**: Specific observations of large orders on Sell Level 1 (卖一档大单) versus smaller orders on Buy Level 1 (买一档小单), and the presence/absence of large support orders during initial declines. Large sell orders during rises with gradual absorption indicate controlled accumulation; lack of support during drops suggests washout tactics [fupanwang.com](https://www.fupanwang.com/zhishi/6409.html).
+- **Initial 5/15/30-Minute Candlestick Patterns (开盘初期K线形态)**: Whether the price forms "golden channel" patterns, immediate long bullish candles breaking resistance, or washout patterns (sharp declines with shrinking volume). A long bullish candle breaking through consolidation zones on high volume confirms accumulation completion [fupanwang.com](https://www.fupanwang.com/zhishi/3435.html).
+- **Turnover Rate (换手率)**: For new listings or recent IPOs, the turnover rate during opening sessions. New stocks with >50-70% turnover in first days indicate major players targeting for position building [fupanwang.com](https://www.fupanwang.com/zhishi/3435.html).
+- **Price Zone Context (股价所处区间)**: Whether the stock is in bottom accumulation, uptrend, or distribution phase. Same opening behavior (e.g., high open) has opposite meanings in different zones—accumulation in bottoms, distribution at highs [fupanwang.com](https://www.fupanwang.com/zhishi/8537.html).
+
+=== Confidence ===
+0.85
+
+=== Raw Response ===
+Summary:
+To determine whether major players (主力资金) are accumulating a specific A-share stock during the morning opening session and identify their accumulation strategy, the following specific data fields and indicators are required. These fields capture opening price action, auction dynamics, intraday order flow, and volume characteristics that reveal institutional intent.
+
+Key Points:
+- **Opening Price Gap (开盘价涨跌幅)**: The percentage difference between today's opening price and yesterday's close. High opens (>2-3%) or low opens (<-2%) in specific price zones (bottom range vs. high range) indicate different strategies: high opens in bottom ranges suggest rapid accumulation/shakeouts, while high opens at highs suggest distribution [fupanwang.com](https://www.fupanwang.com/zhishi/8537.html).
+- **Pre-market Auction Volume & Order Distribution (集合竞价成交量与挂单分布)**: The volume transacted during the call auction (9:15-9:25) and the balance between buy/sell orders at upper/lower price limits. Abnormally high auction volume with large sell orders at opening suggests testing pressure or controlled accumulation [fupanwang.com](https://www.fupanwang.com/zhishi/4190.html).
+- **Opening Volume Ratio (开盘量比)**: The ratio of current trading volume to recent average volume. A significantly elevated ratio (>2-3x) at open with controlled price movement indicates active institutional participation [fupanwang.com](https://www.fupanwang.com/zhishi/1826.html).
+- **Level-1/L2 Order Book Characteristics (盘口挂单特征)**: Specific observations of large orders on Sell Level 1 (卖一档大单) versus smaller orders on Buy Level 1 (买一档小单), and the presence/absence of large support orders during initial declines. Large sell orders during rises with gradual absorption indicate controlled accumulation; lack of support during drops suggests washout tactics [fupanwang.com](https://www.fupanwang.com/zhishi/6409.html).
+- **Initial 5/15/30-Minute Candlestick Patterns (开盘初期K线形态)**: Whether the price forms "golden channel" patterns, immediate long bullish candles breaking resistance, or washout patterns (sharp declines with shrinking volume). A long bullish candle breaking through consolidation zones on high volume confirms accumulation completion [fupanwang.com](https://www.fupanwang.com/zhishi/3435.html).
+- **Turnover Rate (换手率)**: For new listings or recent IPOs, the turnover rate during opening sessions. New stocks with >50-70% turnover in first days indicate major players targeting for position building [fupanwang.com](https://www.fupanwang.com/zhishi/3435.html).
+- **Price Zone Context (股价所处区间)**: Whether the stock is in bottom accumulation, uptrend, or distribution phase. Same opening behavior (e.g., high open) has opposite meanings in different zones—accumulation in bottoms, distribution at highs [fupanwang.com](https://www.fupanwang.com/zhishi/8537.html).
+
+Sources:
+- [fupanwang.com](https://www.fupanwang.com/zhishi/8537.html) - Opening price strategies and zone analysis
+- [fupanwang.com](https://www.fupanwang.com/zhishi/4190.html) - Intraday order book and weekly trend analysis
+- [fupanwang.com](https://www.fupanwang.com/zhishi/6409.html) - Order book characteristics and shakeout identification
+- [fupanwang.com](https://www.fupanwang.com/zhishi/1826.html) - Golden channel and volume analysis
+- [fupanwang.com](https://www.fupanwang.com/zhishi/3435.html) - IPO turnover and K-line confirmation signals
+
+Confidence: 0.85
+
+Uncertainties: These indicators are based on technical analysis patterns described in Chinese market literature; actual institutional behavior may vary. The interpretation requires contextual judgment (e.g., distinguishing true accumulation from "matched trading" 对敲 manipulation). Real-time Level-2 data accuracy and market regime (bull/bear) significantly affect reliability.

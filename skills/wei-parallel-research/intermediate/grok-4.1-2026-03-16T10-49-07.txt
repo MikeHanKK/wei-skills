@@ -1,0 +1,28 @@
+Model: grok-4.1
+Timestamp: 2026-03-16T10-49-07
+Query: [saved in report]
+
+=== Summary ===
+**  
+无法确定新易盛（300502.SZ）明天（2026年3月17日）是否会高开。今日强势上涨4.87%收于413.23元，伴随高成交量，但股票波动性强，无明确隔夜利好或预测支持高开。
+
+=== Key Points ===
+
+=== Confidence ===
+0.5
+
+=== Raw Response ===
+**Summary:**  
+无法确定新易盛（300502.SZ）明天（2026年3月17日）是否会高开。今日强势上涨4.87%收于413.23元，伴随高成交量，但股票波动性强，无明确隔夜利好或预测支持高开。
+
+**Key Points:**  
+- 今日（3月16日）开盘396.04元，最高418.03元，最低392.00元，收盘413.23元（+4.87%），成交47.22万手，资金净流入明显。[[1]](https://quote.eastmoney.com/sz300502.html)[[2]](https://xueqiu.com/S/SZ300502)  
+- AI/CPO板块热度高，公司OFC 2026发布6.4T NPO方案，分析师一致“强力买入”（目标价至460元），融资买入强劲。[[3]](https://www.moomoo.com/hans/stock/300502-SZ/forecast)  
+- 近期波动大：3月13日+4.03%、3月12日-3.68%，高位震荡风险存在。[[4]](https://data.eastmoney.com/zjlx/300502.html)
+
+**Sources (only if you are certain they exist):**  
+- https://quote.eastmoney.com/sz300502.html  
+- https://xueqiu.com/S/SZ300502  
+
+**Confidence:** 0.4  
+**Uncertainties:** 隔夜全球市场、美股科技股走势、突发新闻或整体A股开盘情绪均可能影响，无实时盘前数据。

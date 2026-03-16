@@ -1,0 +1,32 @@
+Model: kimi-k2.5
+Timestamp: 2026-03-16T10-06-45
+Query: [saved in report]
+
+=== Summary ===
+Ginseng may help with sleep, but primarily for specific types of insomnia associated with qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart qi deficiency. It is not universally beneficial and can worsen sleep quality if used inappropriately.
+
+=== Key Points ===
+- **Specific TCM indications**: Ginseng is traditionally used to treat insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency by tonifying qi, generating blood, and calming the spirit (安神益智).
+- **Contraindications and risks**: It is unsuitable for insomnia related to yin deficiency with fire (symptoms like red face, dry mouth, constipation) or for individuals with high blood pressure; excessive doses may cause nervousness, elevated blood pressure, and paradoxically worsen sleep.
+- **Preparation matters**: Common effective forms include ginseng powder (2-3g daily), sliced ginseng tea (3-5g), or prepared formulations like Ginseng Guipi Pill (人参归脾丸) specifically for spleen-heart deficiency patterns.
+
+=== Confidence ===
+0.75
+
+=== Raw Response ===
+ Summary:
+Ginseng may help with sleep, but primarily for specific types of insomnia associated with qi deficiency patterns in Traditional Chinese Medicine (TCM), such as heart-spleen deficiency or heart qi deficiency. It is not universally beneficial and can worsen sleep quality if used inappropriately.
+
+Key Points:
+- **Specific TCM indications**: Ginseng is traditionally used to treat insomnia caused by heart qi deficiency, heart-spleen deficiency, or qi-yin deficiency by tonifying qi, generating blood, and calming the spirit (安神益智).
+- **Contraindications and risks**: It is unsuitable for insomnia related to yin deficiency with fire (symptoms like red face, dry mouth, constipation) or for individuals with high blood pressure; excessive doses may cause nervousness, elevated blood pressure, and paradoxically worsen sleep.
+- **Preparation matters**: Common effective forms include ginseng powder (2-3g daily), sliced ginseng tea (3-5g), or prepared formulations like Ginseng Guipi Pill (人参归脾丸) specifically for spleen-heart deficiency patterns.
+
+Sources (only if you are certain they exist):
+- [dayi.org.cn](https://m.dayi.org.cn/qa/334518.html)
+- [health.rednet.cn](https://health.rednet.cn/content/2020/08/06/7811169.html)
+- [familydoctor.com.cn](https://m.familydoctor.com.cn/201703/1803689.html)
+
+Confidence: 0.75
+
+Uncertainties: Effectiveness varies significantly based on individual TCM pattern differentiation (辨证论治); optimal standardized dosing for sleep improvement lacks robust clinical consensus, and evidence for non-TCM-defined insomnia types is limited.
