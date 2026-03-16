@@ -1,10 +1,10 @@
 ---
-name: parallel-researcher
+name: parallel-research
 version: 1.2.0
 description: Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer
 ---
 
-# Multi-Model Researcher Skill
+# Parallel Researcher Skill
 
 **Version:** 1.2.0 | **Last updated:** 2026-03-16
 
