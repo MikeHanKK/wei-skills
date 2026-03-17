@@ -2,6 +2,9 @@
 name: parallel-research
 version: 1.2.0
 description: Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer
+execution:
+  timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
+  longRunning: true # Marks it as a long-running task to prevent interface blocking
 ---
 
 # Parallel Researcher Skill
