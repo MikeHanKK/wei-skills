@@ -1,30 +1,34 @@
 ---
-name: parallel-research
-version: 1.2.0
-description: Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer
+name: cross-research
+version: 1.2.1
+description: Part of Wei Skills (wei-cross-research) - Get cross-validated answers by querying multiple LLMs in parallel. More reliable than any single model.
 execution:
   timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
   longRunning: true # Marks it as a long-running task to prevent interface blocking
 ---
 
-# Parallel Researcher Skill
+# Cross Research Skill
 
-**Version:** 1.2.0 | **Last updated:** 2026-03-16
+**Version:** 1.2.1 | **Last updated:** 2026-03-16
 
 ## Overview
 
-The **parallel-researcher** skill queries multiple large language models in parallel and synthesizes their responses into a single high-quality answer.
+Use **cross-research** when you need a reliable answer — not just one model's opinion.
 
-This skill is designed for:
+This skill queries multiple LLMs in parallel and uses a judge model to synthesize 
+their responses into a single cross-validated answer. When models agree, confidence 
+is high. When they disagree, the disagreement is surfaced — not silently resolved.
 
-* Complex research questions requiring high confidence
-* Analysis that benefits from multiple viewpoints
-* Reducing hallucination via cross-model comparison
+Best for:
+
+* High-stakes questions where a wrong answer has real consequences
 * Topics where a single model may have blind spots or biases
+* Analysis that benefits from multiple independent viewpoints
+* Reducing hallucination via cross-model comparison
 
-Instead of relying on a single model, this skill collects answers from multiple models and uses a **judge model** to produce a final synthesis.
-
-> **Cost note:** This skill queries 2–3 models per request. Expect approximately 2–3x the token usage of a single-model query. Use it when answer quality justifies the cost; avoid it for simple or low-stakes questions.
+> **Cost note:** This skill queries 2–3 models per request. Expect approximately 
+> 2–3x the token usage of a single-model query. Use it when answer quality 
+> justifies the cost; avoid it for simple or low-stakes questions.
 
 ---
 
@@ -285,7 +289,7 @@ Benefits:
 # Example Usage
 
 ```
-use multi-model-researcher
+use cross-research
 
 query="What are the major AI breakthroughs in the past 12 months?"
 ```
