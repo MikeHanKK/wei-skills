@@ -1,5 +1,5 @@
 ---
-name: cross-research
+name: wei-cross-research
 version: 1.2.1
 description: Part of Wei Skills (wei-cross-research) - Get cross-validated answers by querying multiple LLMs in parallel. More reliable than any single model.
 execution:
@@ -7,13 +7,13 @@ execution:
   longRunning: true # Marks it as a long-running task to prevent interface blocking
 ---
 
-# Cross Research Skill
+# Wei Cross Research Skill
 
 **Version:** 1.2.1 | **Last updated:** 2026-03-16
 
 ## Overview
 
-Use **cross-research** when you need a reliable answer — not just one model's opinion.
+Use **wei-cross-research** when you need a reliable answer — not just one model's opinion.
 
 This skill queries multiple LLMs in parallel and uses a judge model to synthesize 
 their responses into a single cross-validated answer. When models agree, confidence 
