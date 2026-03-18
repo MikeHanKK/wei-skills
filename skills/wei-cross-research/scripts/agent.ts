@@ -168,6 +168,12 @@ export class ResearchAgent {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 
     try {
+      console.log(`[ResearchAgent] ═══ Research started ═══`);
+      console.log(`[ResearchAgent] Timestamp: ${timestamp}`);
+      console.log(`[ResearchAgent] Result files will use this timestamp:`);
+      console.log(`[ResearchAgent]   - reports/report-${timestamp}.txt`);
+      console.log(`[ResearchAgent]   - intermediate/<model>-${timestamp}.txt`);
+
       // Step 1: Input sanitization
       const sanitizedQuery = this.sanitizeInput(request.query);
       console.log(`[ResearchAgent] Query sanitized in ${Date.now() - startTime}ms`);

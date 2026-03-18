@@ -217,6 +217,38 @@ bypassing the built-in router and saving ~10s latency.
 
 ---
 
+# Result Files
+
+Each run produces files identified by a shared `timestamp` in `YYYY-MM-DDTHH-MM-SS` format (ISO 8601, colons replaced with hyphens).
+
+The timestamp is logged at the start of execution:
+```
+[ResearchAgent] Timestamp: 2026-03-19T14-30-05
+```
+
+### File Locations
+
+| File | Path | Content |
+|---|---|---|
+| **Report** | `reports/report-{timestamp}.txt` | Final synthesized answer from judge |
+| **Model responses** | `intermediate/{model}-{timestamp}.txt` | Raw response from each answering model |
+| **Judge raw** | `intermediate/{judge}-{timestamp}.txt` | Raw judge synthesis output |
+
+### Example
+
+For a run at `2026-03-19T14:30:05` with models `kimi-k2.5` and `gpt-5.4`, judge `glm-5`:
+
+```
+reports/report-2026-03-19T14-30-05.txt        ← final answer
+intermediate/kimi-k2.5-2026-03-19T14-30-05.txt
+intermediate/gpt-5.4-2026-03-19T14-30-05.txt
+intermediate/glm-5-judge-raw-2026-03-19T14-30-05.txt
+```
+
+> Use the timestamp from console output to locate all files from a specific run.
+
+---
+
 # Performance Characteristics
 
 | Stage | Typical Latency |
