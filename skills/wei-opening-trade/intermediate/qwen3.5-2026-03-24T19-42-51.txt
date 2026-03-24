@@ -1,0 +1,38 @@
+Model: qwen3.5
+Timestamp: 2026-03-24T19-42-51
+Query: [saved in report]
+
+=== Summary ===
+基于2026年3月25日盘前数据及近期市场信息，当前市场情绪整体**乐观**，主要受AI应用及GEO（生成式引擎优化）概念驱动，但个股短期面临回调压力。个股表现**偏强**，盘前主力资金净流入显著，涨幅达5.37%，显示买盘意愿较强。关键支撑位位于开盘价32.90港元及前一日收盘价31.22港元附近，压力位参考3月18日收盘价34.36港元及36.00港元整数关口。盘前策略建议**等待开盘确认**，避免盲目追高，若开盘后量能配合可考虑分批建仓。
+
+=== Key Points ===
+- **市场情绪与个股强度**: 港股AI应用板块近期活跃（如2月9日相关概念股爆发），迈富时作为营销SaaS及GEO概念龙头，资金关注度提升，个股强度**偏强** [hstong.com](https://daily.hstong.com/quotes/10000-02556-HK)。
+- **关键价位**: 支撑位1为开盘价**32.90港元**，支撑位2为隐含前收盘价**31.22港元**；压力位1为近期高点**34.36港元**（3月18日收盘），压力位2为**36.00港元** [stockstar.com](https://hk.stockstar.com/RB2026031800031426.shtml)。
+- **资金流向**: 盘前主力净流入**423.3万港元**，其中大单净流入占比高，显示机构资金介入意愿明显 [sina.cn](https://guba.sina.cn/list_hk02556.html)。
+- **操作策略**: 建议**等待回调**或开盘后确认站稳33.00港元再介入，避免集合竞价阶段追高，目标仓位控制在**20%**以内 [shidaotec.com](https://www.shidaotec.com/m/hkstock/02556.html)。
+- **风险提示**: 公司目前处于**亏损状态**（PE TTM为负），估值偏高（PB约5.5倍），且AI板块波动较大，需警惕业绩不及预期风险 [futunn.com](https://www.futunn.com/hk/stock/02556-HK/forecast)。
+
+=== Confidence ===
+0.7
+
+=== Raw Response ===
+Summary:
+基于2026年3月25日盘前数据及近期市场信息，当前市场情绪整体**乐观**，主要受AI应用及GEO（生成式引擎优化）概念驱动，但个股短期面临回调压力。个股表现**偏强**，盘前主力资金净流入显著，涨幅达5.37%，显示买盘意愿较强。关键支撑位位于开盘价32.90港元及前一日收盘价31.22港元附近，压力位参考3月18日收盘价34.36港元及36.00港元整数关口。盘前策略建议**等待开盘确认**，避免盲目追高，若开盘后量能配合可考虑分批建仓。
+
+Key Points:
+- **市场情绪与个股强度**: 港股AI应用板块近期活跃（如2月9日相关概念股爆发），迈富时作为营销SaaS及GEO概念龙头，资金关注度提升，个股强度**偏强** [hstong.com](https://daily.hstong.com/quotes/10000-02556-HK)。
+- **关键价位**: 支撑位1为开盘价**32.90港元**，支撑位2为隐含前收盘价**31.22港元**；压力位1为近期高点**34.36港元**（3月18日收盘），压力位2为**36.00港元** [stockstar.com](https://hk.stockstar.com/RB2026031800031426.shtml)。
+- **资金流向**: 盘前主力净流入**423.3万港元**，其中大单净流入占比高，显示机构资金介入意愿明显 [sina.cn](https://guba.sina.cn/list_hk02556.html)。
+- **操作策略**: 建议**等待回调**或开盘后确认站稳33.00港元再介入，避免集合竞价阶段追高，目标仓位控制在**20%**以内 [shidaotec.com](https://www.shidaotec.com/m/hkstock/02556.html)。
+- **风险提示**: 公司目前处于**亏损状态**（PE TTM为负），估值偏高（PB约5.5倍），且AI板块波动较大，需警惕业绩不及预期风险 [futunn.com](https://www.futunn.com/hk/stock/02556-HK/forecast)。
+
+Sources:
+- [hstong.com](https://daily.hstong.com/quotes/10000-02556-HK)
+- [stockstar.com](https://hk.stockstar.com/RB2026031800031426.shtml)
+- [sina.cn](https://guba.sina.cn/list_hk02556.html)
+- [shidaotec.com](https://www.shidaotec.com/m/hkstock/02556.html)
+- [futunn.com](https://www.futunn.com/hk/stock/02556-HK/forecast)
+
+Confidence: 0.7
+
+Uncertainties: 盘前数据波动性较大，实际开盘价可能与预测有偏差；公司财务亏损状态可能影响长期估值稳定性；AI板块受政策及市场情绪影响较大，存在短期回调风险。

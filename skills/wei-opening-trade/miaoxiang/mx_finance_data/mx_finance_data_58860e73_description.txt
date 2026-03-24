@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 迈富时(02556.HK)的集合竞价、盘口挂单、资金流向、技术形态、量价关系
+数据文件路径: /Users/WeiHan/Development/wei-skills/skills/wei-opening-trade/miaoxiang/mx_finance_data/mx_finance_data_58860e73.xlsx
+描述文件路径: /Users/WeiHan/Development/wei-skills/skills/wei-opening-trade/miaoxiang/mx_finance_data/mx_finance_data_58860e73_description.txt
+数据行数: 11
+表数量: 2
+Sheet 列表: 迈富时(02556.HK)的成交量、开盘价等, 迈富时(02556.HK)的区间成交量、区间涨跌幅等

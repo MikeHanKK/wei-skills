@@ -1,0 +1,29 @@
+{
+  "judge_model": "glm-5-bailian",
+  "max_models": 2,
+  "depth": "simple",
+
+  "models": {
+    "gpt-5.4": {
+      "provider": "openrouter",
+      "model_id": "openai/gpt-5.4",
+      "api_base": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "timeout": 30
+    },
+    "seed-2.0-lite": {
+      "provider": "openrouter",
+      "model_id": "bytedance/seed-2.0-lite",
+      "api_base": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "timeout": 25
+    },
+    "glm-5-bailian": {
+      "provider": "bailian",
+      "model_id": "glm-5",
+      "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "BAILIAN_API_KEY",
+      "timeout": 25
+    }
+  }
+}

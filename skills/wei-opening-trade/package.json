@@ -1,0 +1,31 @@
+{
+  "name": "wei-opening-trade",
+  "version": "1.0.0",
+  "description": "智能股票开盘交易决策助手 - 结合实时行情与多模型交叉验证，提供A股/港股开盘加仓策略分析",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/main.ts",
+    "start": "node dist/main.js",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "bun:dev": "bun scripts/index.ts",
+    "bun:start": "bun run scripts/index.ts",
+    "bun:agent": "bun run scripts/agent.ts",
+    "bun:trade": "bun run scripts/index.ts --trade",
+    "trade": "bun run scripts/index.ts --trade"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.3.0",
+    "@types/bun": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
