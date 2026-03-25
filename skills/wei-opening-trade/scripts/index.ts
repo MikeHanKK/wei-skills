@@ -341,7 +341,7 @@ export async function analyzeOpeningTrade(query: string): Promise<string> {
 
   // Use research function with opening-trade domain for stock analysis
   const researchResult = await research(analysisPrompt, {
-    models: ['kimi-k2.5', 'qwen3.5'],
+    models: ['qwen3.5', 'kimi-k2.5', 'gpt-5.4'],
     domain: 'opening-trade',
   });
 

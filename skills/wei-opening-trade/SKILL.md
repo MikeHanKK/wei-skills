@@ -326,6 +326,45 @@ execution:
 - wei-cross-research 核心模块
 - **前置依赖**: `mx_finance_data` skill（用于获取股票行情数据，需在调用本 skill 前完成）
 
+### 安装与执行
+
+#### 1. 安装 Bun（如果未安装）
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+#### 2. 安装项目依赖
+```bash
+cd skills/wei-opening-trade
+bun install
+```
+
+#### 3. 执行分析
+
+**直接执行（推荐）：**
+```bash
+# 盘前分析
+bun run scripts/index.ts --trade "分析[股票名称]开盘策略，[行情数据]"
+
+# 示例
+bun run scripts/index.ts --trade "分析迈富时(02556.HK)开盘策略，集合竞价成交量154.7万股，竞价涨幅5.37%，盘口买一¥33.35(500手)卖一¥33.37(300手)，主力净流入+500万"
+```
+
+**使用 package.json 脚本：**
+```bash
+# 交易分析模式
+bun run trade "分析[股票名称]开盘策略，[行情数据]"
+
+# 或使用完整命令
+bun run bun:trade "分析[股票名称]开盘策略，[行情数据]"
+```
+
+**常用参数：**
+- `--trade` - 启用开盘交易分析模式（必需）
+- `-m, --models <models>` - 指定分析模型（可选，默认: qwen3.5,kimi-k2.5,gpt-5.4）
+- `-j, --json` - 输出 JSON 格式（可选）
+- `-v, --verbose` - 显示详细输出（可选）
+
 ### 环境变量
 
 ```bash
