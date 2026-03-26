@@ -6,7 +6,7 @@
   "depth": "simple",
 
   "models": {
-    "kimi-k2.5-openrouter": {
+    "kimi-k2.5": {
       "provider": "openrouter",
       "model_id": "moonshotai/kimi-k2.5:online",
       "api_base": "https://openrouter.ai/api/v1",
@@ -48,7 +48,7 @@
       "api_key_env": "OPENROUTER_API_KEY",
       "timeout": 60
     },
-    "glm-5-judge": {
+    "glm-5-judge-openrouter": {
       "provider": "openrouter",
       "model_id": "z-ai/glm-5",
       "api_base": "https://openrouter.ai/api/v1",
@@ -56,19 +56,18 @@
       "timeout": 60
     },
     "qwen3.5-judge": {
-      "provider": "openrouter",
-      "model_id": "qwen/qwen3.5-35b-a3b",
-      "api_base": "https://openrouter.ai/api/v1",
-      "api_key_env": "OPENROUTER_API_KEY",
-      "timeout": 60
-    },
-    "kimi-k2.5": {
       "provider": "bailian",
-      "model_id": "kimi-k2.5:online",
+      "model_id": "qwen3.5-35b-a3b",
       "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "api_key_env": "DASHSCOPE_API_KEY",
-      "timeout": 25
+      "timeout": 60
+    },
+    "glm-5-judge": {
+      "provider": "bailian",
+      "model_id": "glm-5",
+      "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "timeout": 60
     }
-
   }
 }
