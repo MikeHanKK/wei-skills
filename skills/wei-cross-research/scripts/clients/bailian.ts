@@ -174,6 +174,10 @@ export class BailianClient {
 
   /**
    * Make a chat completion request to Bailian API
+   *
+   * Model naming convention (like OpenRouter):
+   * - If model ends with `:online`, the `:online` suffix is stripped and web search is enabled
+   *   e.g., "qwen-max:latest:online" -> model="qwen-max:latest", enable_search=true
    */
   async chatCompletion(
     model: string,
@@ -192,8 +196,18 @@ export class BailianClient {
   ): Promise<ChatCompletionResponse> {
     const url = '/chat/completions';
 
+    // Handle :online suffix (like OpenRouter convention)
+    // If model ends with :online, strip it and enable web search
+    let actualModel = model;
+    let enableSearch = options.enableSearch;
+    if (model.endsWith(':online')) {
+      actualModel = model.slice(0, -7); // Remove ':online' suffix
+      enableSearch = true; // Auto-enable web search
+      console.info(`[BailianClient] Detected :online suffix, using model "${actualModel}" with web search enabled`);
+    }
+
     const payload: Record<string, unknown> = {
-      model,
+      model: actualModel,
       messages,
       temperature: options.temperature ?? 0.7,
     };
@@ -219,8 +233,8 @@ export class BailianClient {
     }
 
     // Bailian-specific parameters for web search
-    if (options.enableSearch !== undefined) {
-      payload.enable_search = options.enableSearch;
+    if (enableSearch !== undefined) {
+      payload.enable_search = enableSearch;
     }
 
     if (options.searchOptions) {
@@ -236,7 +250,7 @@ export class BailianClient {
 
       try {
         console.debug(
-          `Making request to ${url} with model ${model} (attempt ${attempt}/${maxAttempts})`
+          `Making request to ${url} with model ${actualModel} (attempt ${attempt}/${maxAttempts})`
         );
 
         const response = await this.axiosInstance.post(url, payload, {
@@ -244,7 +258,7 @@ export class BailianClient {
         });
 
         const elapsedMs = Date.now() - startTime;
-        console.info(`Request completed in ${elapsedMs}ms - Model: ${model}`);
+        console.info(`Request completed in ${elapsedMs}ms - Model: ${actualModel}`);
 
         return response.data as ChatCompletionResponse;
 

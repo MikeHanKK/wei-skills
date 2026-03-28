@@ -1,7 +1,7 @@
 /**
- * Multi-Model Researcher Agent
+ * Cross Research Agent
  *
- * Core implementation of the multi-model-researcher skill.
+ * Core implementation of the cross-research skill.
  * Queries multiple LLMs in parallel and synthesizes their responses into a single high-quality answer.
  */
 
