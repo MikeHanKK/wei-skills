@@ -53,7 +53,7 @@
       "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "api_key_env": "DASHSCOPE_API_KEY",
       "timeout": 60,
-      "roles": ["judge", "synthesis"]
+      "roles": ["judge"]
     },
     "qwen3.5-judge": {
       "provider": "bailian",
