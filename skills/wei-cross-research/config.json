@@ -1,7 +1,7 @@
 {
   "region": "global",
   "judge_model": "glm-5-judge",
-  "max_models": 2,
+  "max_models": 3,
   "depth": "simple",
   "max_tokens": 8192,
   "max_tokens_judge": 16384,
