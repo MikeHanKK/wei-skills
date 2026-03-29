@@ -3,6 +3,8 @@
 // Requires Bun (https://bun.sh) for native TypeScript execution.
 
 import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 /**
  * Multi-Model Researcher - Main Entry Point
@@ -19,6 +21,16 @@ import type {
   ModelName,
 } from './agent.js';
 
+/** Query type classification - must match routing keys in config.json */
+export type QueryType =
+  | 'financial'
+  | 'technical'
+  | 'social'
+  | 'current_events'
+  | 'scientific'
+  | 'creative'
+  | 'general';
+
 // Re-export types
 export type {
   ResearchRequest,
@@ -31,6 +43,64 @@ export type {
 export { ResearchAgent, createResearchAgent } from './agent.js';
 export { BailianClient, OpenRouterClient, BAILIAN_MODELS, OPENROUTER_MODELS } from './clients/index.js';
 
+/** Load configuration from config.json */
+function loadConfig(): ConfigFile {
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const configPath = join(__dirname, '..', 'config.json');
+  const raw = readFileSync(configPath, 'utf-8');
+  return JSON.parse(raw);
+}
+
+/** Configuration file structure */
+interface ConfigFile {
+  judge_model: string;
+  max_models: number;
+  max_tokens: number;
+  max_tokens_judge: number;
+  depth: string;
+  models: Record<string, {
+    provider: string;
+    model_id: string;
+    api_base: string;
+    api_key_env: string;
+    timeout: number;
+    roles?: string[];
+  }>;
+  routing?: Record<string, {
+    models?: string[];
+    judge_prompt?: string;
+    keywords?: string[];
+  }>;
+}
+
+const appConfig = loadConfig();
+
+/**
+ * Select models based on query type using config.json routing configuration
+ * Returns models from the routing config, limited to maxModels
+ */
+function selectModelsByDomain(
+  queryType: QueryType,
+  maxModels: number
+): ModelName[] {
+  const routingConfig = appConfig.routing?.[queryType];
+  const allModels = Object.keys(appConfig.models);
+
+  if (routingConfig?.models && routingConfig.models.length > 0) {
+    // Filter to only include models that exist in config
+    const validModels = routingConfig.models.filter(
+      (m): m is ModelName => allModels.includes(m)
+    );
+    return validModels.slice(0, maxModels);
+  }
+
+  // Fallback: use general routing or first available models
+  const generalModels = appConfig.routing?.['general']?.models
+    || Object.keys(appConfig.models).slice(0, maxModels);
+
+  return generalModels.slice(0, maxModels) as ModelName[];
+}
+
 /** Client configuration options */
 export interface ClientConfig {
   bailianApiKey?: string;
@@ -41,7 +111,7 @@ export interface ClientConfig {
 
 /** Research options */
 export interface ResearchOptions {
-  /** Force specific models (bypasses router) */
+  /** Force specific models (bypasses auto-selection) */
   models?: ModelName[];
   /** Maximum number of models to query (default: 2) */
   maxModels?: number;
@@ -49,8 +119,8 @@ export interface ResearchOptions {
   depth?: 'simple' | 'tree';
   /** Judge model to use for synthesis (default: 'glm-5') */
   judgeModel?: ModelName;
-  /** Question domain — when 'financial', uses a finance-specific judge prompt */
-  domain?: string;
+  /** Query type for model selection - must match domains in config.json (default: 'general') */
+  queryType?: QueryType;
 }
 
 /**
@@ -80,13 +150,26 @@ export async function research(
     throw new ResearchError('Query cannot be empty', 'INVALID_INPUT');
   }
 
+  // Determine models based on queryType (default: 'general')
+  let selectedModels: ModelName[] | undefined = options?.models;
+  const queryType = options?.queryType ?? 'general';
+  const maxModels = options?.maxModels ?? appConfig.max_models ?? 2;
+
+  if (!selectedModels) {
+    selectedModels = selectModelsByDomain(queryType, maxModels);
+  }
+
+  // Map queryType to domain for judge prompt selection
+  // 'financial' queryType uses 'financial' domain judge prompt
+  const domain = queryType === 'financial' ? 'financial' : undefined;
+
   // Build request
   const request: ResearchRequest = {
     query: query.trim(),
-    models: options?.models,
-    maxModels: options?.maxModels,
+    models: selectedModels,
+    maxModels: maxModels,
     depth: options?.depth ?? 'simple',
-    domain: options?.domain,
+    domain: domain,
   };
 
   // Create agent with optional client configuration
@@ -142,13 +225,25 @@ export async function researchWithClients(
       })
     : new OpenRouterClient();
 
+  // Determine models based on queryType (default: 'general')
+  let selectedModels: ModelName[] | undefined = options?.models;
+  const queryType = options?.queryType ?? 'general';
+  const maxModels = options?.maxModels ?? appConfig.max_models ?? 2;
+
+  if (!selectedModels) {
+    selectedModels = selectModelsByDomain(queryType, maxModels);
+  }
+
+  // Map queryType to domain for judge prompt selection
+  const domain = queryType === 'financial' ? 'financial' : undefined;
+
   // Build request
   const request: ResearchRequest = {
     query: query.trim(),
-    models: options?.models,
-    maxModels: options?.maxModels,
+    models: selectedModels,
+    maxModels: maxModels,
     depth: options?.depth ?? 'simple',
-    domain: options?.domain,
+    domain: domain,
   };
 
   // Create agent with custom clients
@@ -337,14 +432,16 @@ Usage:
 Options:
   -h, --help              Show this help message
   -m, --models <models>   Comma-separated list of models (e.g., glm-5,kimi-k2.5)
-  -d, --domain <domain>   Question domain (e.g., financial). When 'financial', uses finance-specific judge.
+  -t, --type <type>       Query type for model selection: financial, technical, social,
+                          current_events, analysis, creative, factual, general (default: general)
   -j, --json              Output as JSON
   -v, --verbose           Show detailed output including individual model responses
 
 Examples:
   bun run scripts/index.ts "What are the economic impacts of AI?"
   bun run scripts/index.ts -m glm-5,gpt-5.4 "Explain quantum computing"
-  bun run scripts/index.ts --domain financial "Will the Fed cut rates in 2026?"
+  bun run scripts/index.ts -t financial "Will the Fed cut rates in 2026?"
+  bun run scripts/index.ts -t technical "How do I implement a distributed transaction?"
   bun run scripts/index.ts --json "Latest AI breakthroughs"
 `);
       process.exit(0);
@@ -353,7 +450,7 @@ Examples:
     // Parse arguments
     let query = '';
     let models: ModelName[] | undefined;
-    let domain: string | undefined;
+    let queryType: QueryType = 'general';
     let outputJson = false;
     let verbose = false;
 
@@ -365,8 +462,11 @@ Examples:
         if (modelStr) {
           models = modelStr.split(',') as ModelName[];
         }
-      } else if (arg === '-d' || arg === '--domain') {
-        domain = args[++i];
+      } else if (arg === '-t' || arg === '--type') {
+        const typeStr = args[++i];
+        if (typeStr) {
+          queryType = typeStr as QueryType;
+        }
       } else if (arg === '-j' || arg === '--json') {
         outputJson = true;
       } else if (arg === '-v' || arg === '--verbose') {
@@ -393,10 +493,12 @@ Examples:
       console.log(`Researching: "${query}"`);
       if (models) {
         console.log(`Using models: ${models.join(', ')}`);
+      } else {
+        console.log(`Query type: ${queryType}`);
       }
       console.log('');
 
-      const result = await research(query, { models, domain });
+      const result = await research(query, { models, queryType });
 
       if (outputJson) {
         console.log(JSON.stringify(result, null, 2));
@@ -426,4 +528,5 @@ export default {
   formatResearchResponse,
   getIndividualAnswers,
   ResearchError,
+  selectModelsByDomain,
 };

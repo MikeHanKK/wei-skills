@@ -1,6 +1,6 @@
 ---
 name: wei-cross-research
-version: 1.2.1
+version: 1.4.0
 description: Part of Wei Skills (wei-cross-research) - Get cross-validated answers by querying multiple LLMs in parallel. More reliable than any single model.
 execution:
   timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
@@ -9,7 +9,7 @@ execution:
 
 # Wei Cross Research Skill
 
-**Version:** 1.2.1 | **Last updated:** 2026-03-16
+**Version:** 1.4.0 | **Last updated:** 2026-03-29
 
 ## Overview
 
@@ -40,12 +40,12 @@ Best for:
 
 ```bash
 bun run scripts/index.ts "your question"
-bun run scripts/index.ts --domain financial "美联储2026年会降息吗？"
+bun run scripts/index.ts -t financial "美联储2026年会降息吗？"
 ```
 
 ### Domain-Specific Judges
 
-When `--domain financial` is specified, the judge step uses a finance-specialized prompt that produces:
+When `queryType` is set to `"financial"`, the judge step uses a finance-specialized prompt that produces:
 
 - **Base Case Analysis** — probabilistic scenario with data-driven reasoning
 - **Bull Case** — arguments for upside scenario
@@ -54,64 +54,147 @@ When `--domain financial` is specified, the judge step uses a finance-specialize
 
 This avoids deterministic predictions and enforces probability ranges (e.g., 60–70% likelihood). Use it for investment, macroeconomic, and market analysis questions.
 
+**Example:**
+```json
+{
+  "query": "美联储2026年会降息吗？",
+  "queryType": "financial"
+}
+```
+
 ---
 # Supported Models
 
-All models are accessed via OpenRouter. Answering models may use live retrieval
-depending on the provider configuration.
+All models are accessed via OpenRouter or other configured providers. Answering models may use live retrieval depending on the provider configuration.
 
-The system selects **2–3 answering models** in parallel and uses a **judge model**
-to synthesize the final response.
+The system selects **2–3 answering models** in parallel (based on roles) and uses a **judge model** to synthesize the final response.
 
----
+## Model Roles
 
-## Answering Models
+Each model in `config.json` is tagged with one or more **roles** indicating its capabilities:
 
-| Model | Provider ID | Retrieval | Best For |
-|---|---|---|---|
-| **kimi-k2.5** | `moonshotai/kimi-k2.5:online` | ✅ Web | Current events, long-context research, factual queries, document analysis |
-| **qwen3.5** | `qwen/qwen3.5-35b-a3b:online` | ✅ Web | Coding, structured output, technical explanations, math and science |
-| **minimax-m2.5** | `minimax/minimax-m2.5:online` | ✅ Web | Reasoning-heavy tasks, synthesis, creative writing, long-form analysis |
-| **gpt-5.4** | `openai/gpt-5.4:online` | ✅ Web | Broad capability, balanced reasoning, ambiguous queries, general fallback |
-| **grok-4.1** | `x-ai/grok-4.1-fast:online` | ✅ X (Twitter) | Social sentiment, trending topics, real-time public opinion |
+| Role | Description | Typical Use |
+|------|-------------|-------------|
+| `retrieval` | Has web/live data access | Current events, real-time info |
+| `coding` | Strong programming capability | Technical implementation, debugging |
+| `social` | Social media data access | X/Twitter sentiment, trending |
+| `reasoning` | Deep analytical capability | Complex analysis, synthesis |
+| `creative` | Creative writing strength | Storytelling, open-ended tasks |
+| `longcontext` | Large context window | Document analysis, long inputs |
+| `general` | Broad balanced capability | Fallback, ambiguous queries |
+| `judge` | Answer synthesis | Final synthesis (judge models only) |
 
----
+> **Note:** Specific model names and their roles are defined in `config.json` → `models`. Refer to that file for the current model roster.
 
 ## Judge Models
 
 Judge models **synthesize answers already in context** and normally do not require retrieval.
 
-| Model | Provider ID | Retrieval | Role |
-|---|---|---|---|
-| **glm-5-judge** | `z-ai/glm-5` | ❌ | Default synthesis judge |
-| **qwen3.5-judge** | `qwen/qwen3.5-35b-a3b` | ❌ | Fallback judge if glm-5-judge unavailable |
+They are configured in `config.json` with role `"judge"` and selected via the `judge_model` config key.
 
-Judge models are **independent of answering models** and may synthesize outputs
-from any answering pool.
+Judge models are **independent of answering models** and may synthesize outputs from any answering pool.
 
 ---
 
 ## Model Selection
 
-**Single source of truth:** [`prompts/router.txt`](prompts/router.txt) — contains the complete routing rules
-(query type → models → domain → signal words → principles).
+Model selection is controlled via `config.json` using a **roles-based routing** system. Instead of hard-coding model names, you select models by the **capabilities (roles)** they provide.
 
-The built-in router uses these rules automatically. As the main conversation model, you can also
-**read `prompts/router.txt`** to classify the query and pass `models` + `domain` directly,
-bypassing the built-in router and saving ~10s latency.
+## How to Select Models
 
-### Quick Reference
+As the calling model, follow this process:
 
-| Query Type | Domain | Models | Examples |
-|---|---|---|---|
-| Financial / markets | `financial` | kimi-k2.5, gpt-5.4, qwen3.5 | "美联储降息", "stock price", "inflation" |
-| Current events | — | kimi-k2.5, grok-4.1, gpt-5.4 | "latest news", "what happened today" |
-| Technical / coding | — | qwen3.5, gpt-5.4, minimax-m2.5 | "implement algorithm", "debug code" |
-| Deep analysis | — | kimi-k2.5, minimax-m2.5, gpt-5.4 | "compare X and Y", "why does..." |
-| Social / sentiment | — | grok-4.1, kimi-k2.5, minimax-m2.5 | "trending", "people think" |
-| Other / default | — | kimi-k2.5, minimax-m2.5, gpt-5.4 | *(fallback)* |
+1. **Classify the query** — Match keywords to determine the `queryType`
+2. **Pass `queryType`** — The skill will look up the `routing.xxx.models` in `config.json`
+3. **(Optional) Pass explicit models** — Use the `models` parameter to bypass auto-selection
 
-> For full signal words, routing principles, and detailed rules, see `prompts/router.txt`.
+## Query Types (Domain)
+
+| queryType | Description |
+|----------|------------|
+| financial | Markets, investing, macroeconomics |
+| technical | Programming, systems, engineering |
+| social | Public opinion, social media sentiment |
+| current_events | Recent news and real-time information |
+| scientific | Objective knowledge, definitions, theories |
+| creative | Writing, design, ideation |
+| general | Default fallback |
+
+
+## Intent (Task Type)
+
+In addition to `queryType`, queries may include an optional `intent` field. `queryType` defines the domain (what the question is about),
+while `intent` defines the task (what to do with the question).
+If `intent` is not provided, the system defaults to `analysis` for complex queries and `lookup` for simple factual queries.
+
+| intent | Description |
+|--------|------------|
+| lookup | Retrieve factual information |
+| analysis | Deep reasoning and explanation |
+| comparison | Compare multiple entities |
+| prediction | Forecast future outcomes (used in financial) |
+| generation | Create content (text, ideas, design) |
+
+Example:
+
+{
+  "query": "美联储2026年会降息吗？",
+  "queryType": "financial",
+  "intent": "prediction"
+}
+
+
+## Selection Algorithm
+
+```
+1. Analyze query → match keywords → determine queryType
+2. Pass queryType to skill → skill looks up `routing.<queryType>.models` in config.json
+3. Skill selects top 2–3 models from the routing config
+4. If queryType === 'financial', skill uses judge_financial.txt for synthesis
+```
+
+## Examples
+
+### Example 1: Financial Query
+
+Query: "美联储2026年会降息吗？"
+
+Selection process:
+1. **Keywords**: 美联储, 降息 → queryType: `financial`
+2. **Pass to skill**: `{ "query": "...", "queryType": "financial" }`
+3. **Skill looks up**: `config.json` → `routing.financial.models`
+4. **Skill selects**: First 2 models from the routing config
+5. **Judge**: Uses `judge_financial.txt` (Bull/Bear/Base Case analysis)
+
+### Example 2: Technical Query
+
+Query: "How do I implement a distributed transaction?"
+
+Selection process:
+1. **Keywords**: implement, distributed → queryType: `technical`
+2. **Pass to skill**: `{ "query": "...", "queryType": "technical" }`
+3. **Skill looks up**: `config.json` → `routing.technical.models`
+4. **Skill selects**: Models configured for technical queries
+
+### Example 3: Social Query
+
+Query: "What are people saying about SpaceX on Twitter?"
+
+Selection process:
+1. **Keywords**: Twitter, saying → queryType: `social`
+2. **Pass to skill**: `{ "query": "...", "queryType": "social" }`
+3. **Skill looks up**: `config.json` → `routing.social.models`
+   - Note: `grok-4.1` has `social`, `sentiment`, `trending` roles + X data access
+
+## When to Reference Specific Models
+
+Only hard-code model names when:
+
+1. **Special data access** — e.g., `grok-4.1` for X/Twitter data, `kimi-k2.5` for 200K context
+2. **Known strengths** — e.g., `qwen3.5` for coding tasks based on benchmarks
+3. **Avoiding specific models** — e.g., excluding models known to underperform for certain tasks
+
+In these cases, document **why** that specific model is needed, not just its name.
 
 
 ---
@@ -136,21 +219,32 @@ bypassing the built-in router and saving ~10s latency.
 
 # Skill Parameters
 
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `query` | string | Yes | The research question to analyze |
-| `models` | array[string] | No | Force specific models (bypasses router) |
-| `maxModels` | number | No | Cap on number of models queried (default: 2) |
-| `depth` | string | No | `"simple"` or `"tree"` (see Depth Modes below) |
-| `judgeModel` | string | No | Override the default judge model (default: `"glm-5"`) |
-| `domain` | string | No | Question domain. `"financial"` uses a finance-specific judge prompt with scenario analysis (Bull/Bear/Base Case) |
+| Parameter | Type | Description |
+|---|---|---|
+| query | string | The research question |
+| queryType | string | Domain classification (financial, technical, etc.) |
+| intent | string | Task type (analysis, prediction, etc.) |
+| models | array | Override model selection |
+| maxModels | number | Max models |
+| depth | string | simple / tree |
+| judgeModel | string | Override judge |
+> **Note:** The `domain` parameter has been deprecated. Use `queryType: 'financial'` instead for financial queries.
 
 **Example:**
 
 ```json
 {
   "query": "What are the economic impacts of AI agents?",
-  "maxModels": 3
+  "queryType": "general",
+  "intent": "analysis"
+}
+```
+
+```json
+{
+  "query": "美联储2026年会降息吗？",
+  "queryType": "financial",
+  "maxModels": 2
 }
 ```
 
@@ -297,22 +391,34 @@ For ongoing quality tracking, log `confidence`, `models_used`, and `models_faile
 
 # Best Practices
 
-Recommended model combination:
+## Recommended Model Combinations
 
-```
-2 answering models + 1 judge model
-```
+| intent | Role Combination | Example |
+|--------|------------------|---------|
+| lookup | `retrieval` + `general` | Quick factual lookup + balanced fallback |
+| analysis | `reasoning` + `retrieval` | Deep analysis + live data context |
+| prediction | `reasoning` + `synthesis` | Forecast with multi-source synthesis |
+| comparison | `reasoning` + `structured` | Evaluate options systematically |
+| generation | `creative` + `synthesis` | Create + refine output |
 
-Example:
+| queryType | Recommended Roles | Why |
+|---------|---------------|-----|
+| financial | `retrieval` + `research` | Live data + analysis |
+| technical | `coding` + `general` | Technical + broader context |
+| social | `social` + `retrieval` | Sentiment + current context |
+| creative | `creative` + `synthesis` | Generate + refine |
 
-```
-kimi-k2.5  ──┐
-              ├──▶ judge: glm-5
-qwen3-max  ──┘
-```
+
+## Why Role Diversity Matters
+
+Combining models with different roles improves reliability:
+
+- **`retrieval` + `reasoning`**: Up-to-date facts + deep analysis
+- **`coding` + `general`**: Technical accuracy + broader context
+- **`social` + `retrieval`**: Platform-specific sentiment + general web context
 
 Benefits:
-* Higher reliability through model diversity
+* Higher reliability through capability diversity
 * Reduced hallucination via cross-validation
 * Improved reasoning quality on ambiguous topics
 
@@ -324,7 +430,14 @@ Benefits:
 use cross-research
 
 query="What are the major AI breakthroughs in the past 12 months?"
+queryType="current_events"
 ```
+
+Selection process:
+1. Keywords: "past 12 months" → implies `current_events`
+2. Pass `queryType: "current_events"` to skill
+3. Skill looks up `config.json` → `routing.current_events.models`
+4. Judge synthesizes responses
 
 Example result:
 
@@ -346,6 +459,8 @@ Confidence: 0.87
 
 | Version | Changes |
 |---|---|
+| 1.4.0 | **BREAKING**: Added `queryType` parameter for simplified model selection. Deprecated `domain` parameter — use `queryType: 'financial'` instead. Removed LLM-based routing from `prompts/router.txt` in favor of config-driven selection. |
+| 1.3.0 | **BREAKING**: Refactored model routing to use `config.json` roles-based system. Model selection is now caller-controlled via `domains` → `required_roles` → `models[].roles` chain. Removed LLM-based routing from `prompts/router.txt`. |
 | 1.2.0 | Added `domain` parameter with `financial` support — finance-specific judge prompt with Bull/Bear/Base Case scenario analysis |
 | 1.1.0 | Added depth mode documentation, error output schemas, confidence scale clarification, security notes, quality evaluation criteria, cost note |
 | 1.0.0 | Initial release |
