@@ -55,10 +55,9 @@
       "timeout": 60,
       "roles": ["structured", "retrieval", "coding", "technical", "math"]
     },
-
     "qwen3.5-judge": {
       "provider": "openrouter",
-      "model_id": "qwen/qwen3.5-35b-a3b:online",
+      "model_id": "qwen/qwen3.5-35b-a3b",
       "api_base": "https://openrouter.ai/api/v1",
       "api_key_env": "OPENROUTER_API_KEY",
       "timeout": 60,
