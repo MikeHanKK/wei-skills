@@ -1,20 +1,12 @@
 {
   "region": "cn",
   "judge_model": "glm-5-judge",
-  "max_models": 3,
+  "max_models": 2,
   "depth": "simple",
   "max_tokens": 8192,
   "max_tokens_judge": 16384,
 
   "models": {
-    "glm-5": {
-      "provider": "bailian",
-      "model_id": "glm-5:online",
-      "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-      "api_key_env": "DASHSCOPE_API_KEY",
-      "timeout": 60,
-      "roles": ["general", "retrieval", "analysis"]
-    },
     "minimax-m2.5": {
       "provider": "bailian",
       "model_id": "minimax-m2.5:online",
@@ -67,7 +59,7 @@
 
   "routing": {
     "financial": {
-      "models": ["kimi-k2.5", "qwen3.5", "glm-5"],
+      "models": ["kimi-k2.5", "qwen3.5"],
       "judge_prompt": "judge_financial"
     },
 
@@ -80,7 +72,7 @@
     },
 
     "current_events": {
-      "models": ["kimi-k2.5", "glm-5", "qwen3.5"]
+      "models": ["kimi-k2.5", "qwen3.5"]
     },
 
     "scientific": {
@@ -88,11 +80,11 @@
     },
 
     "creative": {
-      "models": ["minimax-m2.5", "kimi-k2.5", "glm-5"]
+      "models": ["minimax-m2.5", "kimi-k2.5"]
     },
 
     "general": {
-      "models": ["kimi-k2.5", "glm-5", "minimax-m2.5"]
+      "models": ["kimi-k2.5", "minimax-m2.5"]
     }
   }
 }
