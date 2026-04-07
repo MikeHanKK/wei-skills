@@ -5,6 +5,13 @@ description: Part of Wei Skills (wei-cross-research) - Get cross-validated answe
 execution:
   timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
   longRunning: true # Marks it as a long-running task to prevent interface blocking
+env:
+  OPENROUTER_API_KEY:
+    description: API key for OpenRouter (only required if models in config.json use OpenRouter)
+    required: false
+  DASHSCOPE_API_KEY:
+    description: API key for DashScope/Bailian (only required if models in config.json use DashScope)
+    required: false
 ---
 
 # Wei Cross Research Skill
@@ -58,27 +65,7 @@ DASHSCOPE_API_KEY=your_dashscope_api_key
 
 ### Configuration Files
 
-The project includes several sample configuration files for different deployment scenarios:
-
-| File | Description |
-|------|-------------|
-| `config.json` | **Active configuration** — the file actually loaded by the application |
-| `config_global.json` | Sample config for OpenRouter (US/global access) — models accessed via openrouter.ai |
-| `config_cn.json` | Sample config for OpenRouter (China access) — optimized for access from China |
-| `config_dashscope.json` | Sample config using Alibaba Cloud Bailian (DashScope) — all models via `dashscope.aliyuncs.com` |
-
-To switch configurations, copy the desired sample file to `config.json`:
-
-```bash
-# Use global OpenRouter config
-cp config_global.json config.json
-
-# Use China-optimized OpenRouter config
-cp config_cn.json config.json
-
-# Use Alibaba Cloud Bailian config
-cp config_dashscope.json config.json
-```
+> **遇到模型访问问题？** 请参考 `README.md` 了解如何根据你的网络环境选择和配置 `config.json`。
 
 ### Install Dependencies
 

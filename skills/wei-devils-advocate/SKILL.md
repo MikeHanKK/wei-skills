@@ -1,37 +1,39 @@
 ---
 name: wei-devils-advocate
 version: 1.1.0
-description: Part of Wei Skills (wei-devils-advocate) - Stress-test ideas by generating strong counterarguments and evaluating whether they survive adversarial scrutiny.
+description: Stress-test ideas using multiple LLMs in adversarial roles to generate counterarguments, cross-check reasoning, and expose hidden risks and failure modes. 易找茬：通过多模型对抗式分析与交叉验证，从不同视角生成反对意见并揭示潜在风险。
 execution:
   timeout: 600
   longRunning: true
 env:
   OPENROUTER_API_KEY:
-    description: API key for OpenRouter service (used for grok-4.1, gpt-5.4, kimi-k2.5, minimax-m2.5, qwen3.5, glm-5 models)
-    required: true
+    description: API key for OpenRouter (only required if models in config.json use OpenRouter)
+    required: false
   DASHSCOPE_API_KEY:
-    description: API key for Alibaba Cloud DashScope/Bailian service (used for judge model glm-5-judge, qwen3.5-judge)
-    required: true
+    description: API key for DashScope/Bailian (only required if models in config.json use DashScope)
+    required: false
 ---
 
 # Wei Devil's Advocate Skill
 
-**Version:** 1.1.0 | **Last updated:** 2026-04-01
+**Version:** 1.1.0 | **Last updated:** 2026-04-07
 
 ---
 
 ## Overview
 
-Use **wei-devils-advocate** when you don’t want validation — you want **truth under pressure**.
+Use **wei-devils-advocate** to stress-test ideas through multi-LLM adversarial cross-validation.
 
-This skill challenges an idea by:
-- Generating strong counterarguments from multiple LLMs
-- Exploring realistic failure scenarios
-- Evaluating whether the idea survives adversarial scrutiny
+Multiple language models independently act as devil’s advocates, challenging the idea from different reasoning paths to uncover hidden risks, assumptions, and failure modes that a single model may miss.
 
-Unlike **wei-cross-research** (which seeks agreement), this skill:
+It is best suited for:
 
-> Actively creates disagreement to expose hidden risks.
+Identifying hidden assumptions through cross-model disagreement
+Exposing risks, edge cases, and failure scenarios
+Detecting overconfident or internally consistent but fragile reasoning
+Validating decisions under adversarial multi-perspective review
+
+Do NOT use this skill if you are looking for validation, consensus， quick agreement, brainstorming, or single-perspective answers.
 
 ---
 
@@ -82,6 +84,10 @@ export DASHSCOPE_API_KEY=your_dashscope_api_key_here
 > **Note:** If environment variables are not set, the skill will throw an error with instructions on how to configure them.
 
 ---
+
+### Configuration Files
+
+> **遇到模型访问问题？** 请参考 `README.md` 了解如何根据你的网络环境选择和配置 `config.json`。
 
 ## Core Philosophy
 

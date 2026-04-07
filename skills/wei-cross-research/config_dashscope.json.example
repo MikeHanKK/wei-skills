@@ -9,7 +9,7 @@
   "models": {
     "minimax-m2.5": {
       "provider": "bailian",
-      "model_id": "MiniMax-M2.5:online",
+      "model_id": "minimax-m2.5:online",
       "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "api_key_env": "DASHSCOPE_API_KEY",
       "timeout": 60,
