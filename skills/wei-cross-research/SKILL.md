@@ -36,6 +36,56 @@ Best for:
 
 - [Bun](https://bun.sh) >= 1.0
 
+### Install Bun
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+### Environment Variables
+
+Create a `.env` file in the project root or set environment variables:
+
+```bash
+# Required for OpenRouter models (answering models)
+OPENROUTER_API_KEY=your_openrouter_api_key
+
+# Required for judge models (Bailian/DashScope)
+DASHSCOPE_API_KEY=your_dashscope_api_key
+```
+
+> **Note:** If you don't have an OpenRouter API key, you can modify `config.json` to use other providers. Change the `provider` field from `"openrouter"` to `"bailian"` or `"openai_compliant"` and update the `api_key_env` to point to your available API key.
+
+### Configuration Files
+
+The project includes several sample configuration files for different deployment scenarios:
+
+| File | Description |
+|------|-------------|
+| `config.json` | **Active configuration** — the file actually loaded by the application |
+| `config_global.json` | Sample config for OpenRouter (US/global access) — models accessed via openrouter.ai |
+| `config_cn.json` | Sample config for OpenRouter (China access) — optimized for access from China |
+| `config_dashscope.json` | Sample config using Alibaba Cloud Bailian (DashScope) — all models via `dashscope.aliyuncs.com` |
+
+To switch configurations, copy the desired sample file to `config.json`:
+
+```bash
+# Use global OpenRouter config
+cp config_global.json config.json
+
+# Use China-optimized OpenRouter config
+cp config_cn.json config.json
+
+# Use Alibaba Cloud Bailian config
+cp config_dashscope.json config.json
+```
+
+### Install Dependencies
+
+```bash
+bun install
+```
+
 ## Usage
 
 ```bash
