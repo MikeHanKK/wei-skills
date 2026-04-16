@@ -124,7 +124,7 @@ Structured Decision Output
 |------|--------|---------|
 | attack (default) | Generate counterarguments + judge evaluation | Fast stress test |
 
-> **Note:** Currently only the `attack` mode is implemented. Future versions may add `debate` (attack + defend) and `deep` (multi-round adversarial) modes.
+> **Note:** Currently only the `attack` mode is implemented. Future versions include the `simulation` mode for simulating whether an idea survives sustained attack. Preview the 'simulation' mode at https://www.bigbigai.com/agent/devils-advocate .
 
 ---
 

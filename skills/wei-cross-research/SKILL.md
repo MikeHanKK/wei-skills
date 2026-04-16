@@ -1,7 +1,7 @@
 ---
 name: wei-cross-research
 version: 1.4.0
-description: Part of Wei Skills (wei-cross-research) - Get cross-validated answers by querying multiple LLMs in parallel. More reliable than any single model.
+description: Cross-validate research answers by querying multiple LLMs in parallel with judge-based synthesis. Reduces hallucination and surfaces model disagreements for high-stakes questions. 交叉研究：多模型并行查询与裁判合成，通过交叉验证降低幻觉、暴露分歧，适用于高 stakes 决策。
 execution:
   timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
   longRunning: true # Marks it as a long-running task to prevent interface blocking

@@ -63,6 +63,8 @@ Designed for integration into:
 
 > Multi-model AI research system for generating **high-confidence, evidence-based answers**.
 
+🚀 **Try it now**: Experience the strongest closed-source multi-model cross-validation at [https://www.bigbigai.com/agent/cross-research](https://www.bigbigai.com/agent/cross-research)
+
 ## What It Does
 
 `wei-cross-research` is an AI orchestration skill that:
@@ -167,6 +169,8 @@ maxModels=2
 # 🎯 wei-devils-advocate
 
 > Stress-test ideas by generating strong counterarguments and evaluating whether they survive adversarial scrutiny.
+
+🚀 **Try it now**: Experience the strongest closed-source multi-model stress testing at [https://www.bigbigai.com/agent/devils-advocate](https://www.bigbigai.com/agent/devils-advocate)
 
 ## What It Does
 

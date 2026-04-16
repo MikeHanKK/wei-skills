@@ -43,6 +43,8 @@
 
 > 多模型 AI 研究系统，生成**高置信度、基于证据的回答**。
 
+🚀 **立即体验**：在 [https://www.bigbigai.com/agent/cross-research](https://www.bigbigai.com/agent/cross-research) 体验最强闭源多模型交叉验证
+
 ### 功能说明
 
 `wei-cross-research` 是一个 AI 编排技能：
@@ -147,6 +149,8 @@ maxModels=2
 ## 🎯 wei-devils-advocate
 
 > 通过生成反驳论点进行对抗性审查，压力测试想法。
+
+🚀 **立即体验**：在 [https://www.bigbigai.com/agent/devils-advocate](https://www.bigbigai.com/agent/devils-advocate) 体验最强闭源多模型压力测试
 
 ### 功能说明
 
