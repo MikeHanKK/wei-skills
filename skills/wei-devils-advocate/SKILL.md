@@ -152,7 +152,6 @@ Each model in `config.json` is tagged with one or more **roles** indicating its 
 | `critic` | Strong critical thinking and counterargument generation | Challenging assumptions |
 | `reasoning` | Deep analytical capability | Complex analysis, synthesis |
 | `retrieval` | Has web/live data access | Current events, real-time info |
-| `defender` | Can construct rebuttals to critiques | Defending ideas against attacks |
 | `judge` | Evaluates survivability of ideas | Final evaluation |
 | `general` | Broad balanced capability | Fallback, ambiguous queries |
 
