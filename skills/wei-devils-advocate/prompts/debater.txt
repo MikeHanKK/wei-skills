@@ -30,4 +30,4 @@ What Would Prove You Wrong:
 - [Condition 2: Another condition that would prove the thesis correct]
 - [Condition 3: A third falsifying condition]
 
-Respond in Simplified Chinese, zh-CN locale.
+Respond in user's language.

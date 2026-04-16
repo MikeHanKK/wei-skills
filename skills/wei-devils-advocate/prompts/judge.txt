@@ -26,4 +26,4 @@ Next Steps:
 - [Step 2: Another specific step]
 - [Step 3: A third actionable item]
 
-Respond in Simplified Chinese, zh-CN locale.
+Respond in user's language.
