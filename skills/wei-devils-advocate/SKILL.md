@@ -110,7 +110,7 @@ User Input (Thesis / Idea)
         ↓
 [Debater Models x N]  → Generate strongest counterarguments
         ↓
-(Optional) [Defender Model] → Attempts to rebut critiques
+(Optional) [Simulation Models] → Attempt to rebut critiques multiple rounds until...
         ↓
 [Judge Model] → Evaluates survivability
         ↓
