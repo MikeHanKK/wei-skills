@@ -1,7 +1,7 @@
 /**
- * 阿里云百炼 (Bailian/DashScope) HTTP Client
+ * OpenRouter HTTP Client
  *
- * A reusable HTTP client for making requests to the Alibaba Cloud Bailian API.
+ * A reusable HTTP client for making requests to the OpenRouter API.
  * Supports rate limiting, retries, and configurable timeouts.
  *
  * Environment variables are automatically loaded from .env file by Bun.
@@ -12,14 +12,16 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
 
-/** Configuration for Bailian client */
-export interface BailianConfig {
+/** Configuration for OpenRouter client */
+export interface OpenRouterConfig {
   apiKey: string;
   baseUrl: string;
   timeout: number;
   maxRetries: number;
   retryDelay: number;
   rateLimitRequestsPerMinute: number;
+  referer?: string;
+  title?: string;
 }
 
 /** Chat message structure */
@@ -45,10 +47,14 @@ export interface Tool {
   };
 }
 
-/** Search options for web search */
-export interface SearchOptions {
-  search_strategy?: 'standard' | 'pro';
-  max_results?: number;
+/** Tool call in response */
+export interface ToolCall {
+  id: string;
+  type: 'function';
+  function: {
+    name: string;
+    arguments: string;
+  };
 }
 
 /** Chat completion response */
@@ -62,35 +68,13 @@ export interface ChatCompletionResponse {
     message: {
       role: string;
       content: string;
-      tool_calls?: Array<{
-        id: string;
-        type: string;
-        function: {
-          name: string;
-          arguments: string;
-        };
-      }>;
+      tool_calls?: ToolCall[];
     };
     finish_reason: string;
   }>;
   usage?: {
     prompt_tokens: number;
     completion_tokens: number;
-    total_tokens: number;
-  };
-}
-
-/** Embeddings response */
-export interface EmbeddingsResponse {
-  object: string;
-  data: Array<{
-    object: string;
-    embedding: number[];
-    index: number;
-  }>;
-  model: string;
-  usage: {
-    prompt_tokens: number;
     total_tokens: number;
   };
 }
@@ -118,43 +102,45 @@ class RateLimiter {
   }
 }
 
-/** Bailian API Client */
-export class BailianClient {
-  private config: BailianConfig;
+/** OpenRouter API Client */
+export class OpenRouterClient {
+  private config: OpenRouterConfig;
   private rateLimiter: RateLimiter;
   private axiosInstance: AxiosInstance;
 
-  constructor(config?: Partial<BailianConfig>) {
+  constructor(config?: Partial<OpenRouterConfig>) {
     this.config = this.loadConfig(config);
     this.rateLimiter = new RateLimiter(this.config.rateLimitRequestsPerMinute);
     this.axiosInstance = this.createAxiosInstance();
   }
 
   /** Load configuration from environment variables and provided config */
-  private loadConfig(providedConfig?: Partial<BailianConfig>): BailianConfig {
+  private loadConfig(providedConfig?: Partial<OpenRouterConfig>): OpenRouterConfig {
     const apiKey = providedConfig?.apiKey ??
-      process.env.BAILIAN_API_KEY ??
-      process.env.DASHSCOPE_API_KEY;
+      process.env.OPENROUTER_API_KEY ??
+      process.env.GROK_API_KEY;
 
     if (!apiKey) {
       throw new Error(
-        'API key not found. Set BAILIAN_API_KEY or DASHSCOPE_API_KEY environment variable.'
+        'API key not found. Set OPENROUTER_API_KEY or GROK_API_KEY environment variable.'
       );
     }
 
     return {
       apiKey,
       baseUrl: providedConfig?.baseUrl ??
-        process.env.BAILIAN_BASE_URL ??
-        'https://dashscope.aliyuncs.com/compatible-mode/v1',
+        process.env.OPENROUTER_BASE_URL ??
+        'https://openrouter.ai/api/v1',
       timeout: providedConfig?.timeout ??
-        parseInt(process.env.BAILIAN_TIMEOUT ?? '90', 10),
+        parseInt(process.env.OPENROUTER_TIMEOUT ?? '90', 10),
       maxRetries: providedConfig?.maxRetries ??
-        parseInt(process.env.BAILIAN_MAX_RETRIES ?? '3', 10),
+        parseInt(process.env.OPENROUTER_MAX_RETRIES ?? '3', 10),
       retryDelay: providedConfig?.retryDelay ??
-        parseFloat(process.env.BAILIAN_RETRY_DELAY ?? '2.0'),
+        parseFloat(process.env.OPENROUTER_RETRY_DELAY ?? '2.0'),
       rateLimitRequestsPerMinute: providedConfig?.rateLimitRequestsPerMinute ??
-        parseInt(process.env.BAILIAN_RATE_LIMIT_RPM ?? '60', 10),
+        parseInt(process.env.OPENROUTER_RATE_LIMIT_RPM ?? '60', 10),
+      referer: providedConfig?.referer ?? 'https://github.com/wei-stock-analysis',
+      title: providedConfig?.title ?? 'AI Stock Analysis Agent',
     };
   }
 
@@ -166,6 +152,8 @@ export class BailianClient {
       headers: {
         'Authorization': `Bearer ${this.config.apiKey}`,
         'Content-Type': 'application/json',
+        'HTTP-Referer': this.config.referer,
+        'X-Title': this.config.title,
       },
     });
 
@@ -173,7 +161,7 @@ export class BailianClient {
   }
 
   /**
-   * Make a chat completion request to Bailian API
+   * Make a chat completion request to OpenRouter
    */
   async chatCompletion(
     model: string,
@@ -181,13 +169,10 @@ export class BailianClient {
     options: {
       temperature?: number;
       maxTokens?: number;
-      topP?: number;
       responseFormat?: ResponseFormat;
       tools?: Tool[];
       toolChoice?: string;
       extraHeaders?: Record<string, string>;
-      enableSearch?: boolean;
-      searchOptions?: SearchOptions;
     } = {}
   ): Promise<ChatCompletionResponse> {
     const url = '/chat/completions';
@@ -195,15 +180,11 @@ export class BailianClient {
     const payload: Record<string, unknown> = {
       model,
       messages,
-      temperature: options.temperature ?? 0.7,
+      temperature: options.temperature ?? 0.1,
     };
 
     if (options.maxTokens) {
       payload.max_tokens = options.maxTokens;
-    }
-
-    if (options.topP !== undefined) {
-      payload.top_p = options.topP;
     }
 
     if (options.responseFormat) {
@@ -216,15 +197,6 @@ export class BailianClient {
 
     if (options.toolChoice) {
       payload.tool_choice = options.toolChoice;
-    }
-
-    // Bailian-specific parameters for web search
-    if (options.enableSearch !== undefined) {
-      payload.enable_search = options.enableSearch;
-    }
-
-    if (options.searchOptions) {
-      payload.search_options = options.searchOptions;
     }
 
     const headers = options.extraHeaders ?? {};
@@ -305,49 +277,6 @@ export class BailianClient {
     throw new Error('All attempts failed');
   }
 
-  /**
-   * Create embeddings for text using Bailian embedding models
-   */
-  async embeddings(
-    model: string,
-    inputText: string | string[],
-    options: {
-      dimensions?: number;
-      encodingFormat?: 'float' | 'base64';
-    } = {}
-  ): Promise<EmbeddingsResponse> {
-    const url = '/embeddings';
-
-    const payload: Record<string, unknown> = {
-      model,
-      input: inputText,
-      encoding_format: options.encodingFormat ?? 'float',
-    };
-
-    if (options.dimensions) {
-      payload.dimensions = options.dimensions;
-    }
-
-    await this.rateLimiter.acquire();
-    const startTime = Date.now();
-
-    try {
-      console.debug(`Making embedding request with model ${model}`);
-
-      const response = await this.axiosInstance.post(url, payload);
-
-      const elapsedMs = Date.now() - startTime;
-      console.info(`Embedding request completed in ${elapsedMs}ms - Model: ${model}`);
-
-      return response.data as EmbeddingsResponse;
-
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      console.error(`Embedding request failed: ${axiosError.message}`);
-      throw error;
-    }
-  }
-
   /** Save debug response to file when JSON parsing fails */
   private saveDebugResponse(response: unknown, error: Error): void {
     const debugDir = path.join(process.cwd(), 'intermediate');
@@ -356,7 +285,7 @@ export class BailianClient {
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const debugFile = path.join(debugDir, `bailian_debug_${timestamp}.txt`);
+    const debugFile = path.join(debugDir, `openrouter_debug_${timestamp}.txt`);
 
     fs.writeFileSync(debugFile, JSON.stringify({
       timestamp: new Date().toISOString(),
@@ -371,32 +300,54 @@ export class BailianClient {
 /**
  * Factory function to create a client with optional API key
  */
-export function createBailianClient(apiKey?: string): BailianClient {
+export function createOpenRouterClient(apiKey?: string): OpenRouterClient {
   if (apiKey) {
-    return new BailianClient({ apiKey });
+    return new OpenRouterClient({ apiKey });
   }
-  return new BailianClient();
+  return new OpenRouterClient();
 }
 
-/** Common model names for reference */
-export const BAILIAN_MODELS = {
-  // Qwen series (通义千问)
-  QWEN_MAX: 'qwen-max',
-  QWEN_MAX_LATEST: 'qwen-max-latest',
-  QWEN_PLUS: 'qwen-plus',
-  QWEN_PLUS_LATEST: 'qwen-plus-latest',
-  QWEN_TURBO: 'qwen-turbo',
-  QWEN_TURBO_LATEST: 'qwen-turbo-latest',
+/** Common model names for reference (OpenRouter format) */
+export const OPENROUTER_MODELS = {
+  // xAI models
+  GROK_4_1_FAST: 'x-ai/grok-4.1-fast:online',
+  GROK_4_1: 'x-ai/grok-4.1',
+  GROK_3_BETA: 'x-ai/grok-3-beta',
 
-  // DeepSeek series
-  DEEPSEEK_R1: 'deepseek-r1',
-  DEEPSEEK_V3: 'deepseek-v3',
-  DEEPSEEK_R1_DISTILL_QWEN: 'deepseek-r1-distill-qwen',
+  // OpenAI models
+  GPT_4O: 'openai/gpt-4o',
+  GPT_4O_MINI: 'openai/gpt-4o-mini',
+  GPT_4_TURBO: 'openai/gpt-4-turbo',
 
-  // Embedding models
-  TEXT_EMBEDDING_V3: 'text-embedding-v3',
-  TEXT_EMBEDDING_V2: 'text-embedding-v2',
+  // Anthropic models
+  CLAUDE_3_5_SONNET: 'anthropic/claude-3.5-sonnet',
+  CLAUDE_3_OPUS: 'anthropic/claude-3-opus',
+
+  // Google models
+  GEMINI_1_5_PRO: 'google/gemini-1.5-pro',
+  GEMINI_1_5_FLASH: 'google/gemini-1.5-flash',
+
+  // DeepSeek models
+  DEEPSEEK_CHAT: 'deepseek/deepseek-chat',
+  DEEPSEEK_CODER: 'deepseek/deepseek-coder',
+
+  // Meta models
+  LLAMA_3_1_70B: 'meta-llama/llama-3.1-70b-instruct',
+  LLAMA_3_1_405B: 'meta-llama/llama-3.1-405b-instruct',
+
+  // 智谱 GLM
+  GLM_5: 'zhipu/glm-5',
+  GLM_4_PLUS: 'zhipu/glm-4-plus',
+
+  // 月之暗面 Kimi
+  KIMI_K2_5: 'moonshotai/kimi-k2.5',
+
+  // 阿里通义千问
+  QWEN3_MAX: 'qwen/qwen3-max',
+
+  // MiniMax
+  MINIMAX_M2_5: 'minimax/minimax-m2.5',
 };
 
 // Export default
-export default BailianClient;
+export default OpenRouterClient;
