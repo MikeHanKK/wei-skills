@@ -1,52 +1,103 @@
 # Wei Skills
 
-> A production-ready collection of AI research & reasoning skills for building **high-confidence, multi-model LLM systems**.
+> **Don’t trust one model. Force consensus.**  
+> A multi-model AI system that **argues, verifies, and converges on truth**.
 
-English | [中文](README_cn.md) 
-
-Wei Skills extends Openclaw and Claude Code with advanced capabilities for:
-- Multi-model AI research synthesis
-- Hallucination reduction via cross-validation
-- Evidence-based answer generation
-- Automated research workflows
-
-Designed for developers building **AI agents, research assistants, and LLM-powered applications**.
+English | [中文](README_cn.md)
 
 ---
 
-## Why Wei Skills?
+## What is Wei Skills?
 
-Most LLM applications suffer from a critical limitation:
+Wei Skills is not just a toolkit.
 
-> ❌ Single-model responses are often inconsistent, biased, or hallucinated
+It is a **reasoning layer for AI systems** that transforms unreliable single-model outputs into **high-confidence, decision-grade intelligence**.
 
-Wei Skills solves this by introducing a **multi-model verification layer for AI reasoning**.
+Instead of asking one model for an answer, Wei Skills:
 
-Instead of trusting one model, we:
-- Query multiple LLMs in parallel
-- Compare and cross-validate outputs
-- Use a judge model to synthesize a grounded final answer
-- Surface disagreements instead of hiding uncertainty
+- makes multiple models think independently  
+- forces them to disagree, challenge, and verify each other  
+- synthesizes a final answer only after conflicts are resolved  
+
+> **AI should not generate answers — it should earn them.**
 
 ---
 
-## Core Benefits
+## The Problem
 
-### 🔍 1. Reduced Hallucinations via Cross-Validation
-Multiple independent models answer the same query. Conflicts are detected and resolved explicitly, significantly reducing hallucination risk compared to single-model systems.
+Most LLM applications rely on a single model.
 
-### 🌐 2. Multi-Source Intelligence
-Different models leverage different training distributions, retrieval systems, and reasoning patterns — improving coverage and reducing blind spots.
+> ❌ One model → one answer → hidden uncertainty  
 
-### 🧠 3. Higher Confidence AI Responses
-When multiple models converge on an answer, confidence increases. When they diverge, uncertainty is surfaced instead of hidden.
+This leads to:
+- hallucinations  
+- overconfidence  
+- fragile reasoning  
 
-### ⚙️ 4. Production-Ready for AI Applications
-Designed for integration into:
-- AI agents
-- Research copilots
-- Enterprise knowledge systems
-- LLM orchestration pipelines
+---
+
+## The Wei Approach
+
+Wei Skills introduces a new paradigm:
+
+> ✅ Multiple models → competing reasoning → explicit validation → grounded synthesis  
+
+This transforms AI from:
+
+- **answer generation** → **truth-seeking process**  
+- **black box output** → **transparent reasoning system**
+
+---
+
+## Why It Matters
+
+Wei Skills is built for scenarios where being *wrong is costly*:
+
+- investment decisions  
+- technical architecture  
+- product & strategy validation  
+- research synthesis  
+
+> When accuracy matters, **consensus beats confidence**.
+
+---
+
+## Core Capabilities
+
+### 🔍 Cross-Model Verification
+Multiple LLMs independently answer the same query, exposing conflicts and reducing hallucination risk.
+
+### ⚖️ Adversarial Reasoning
+Ideas are stress-tested through structured counterarguments before being accepted.
+
+### 🧠 Confidence Through Convergence
+Agreement increases confidence. Disagreement reveals uncertainty.
+
+### ⚙️ Built for Real Systems
+Designed for:
+- AI agents  
+- research copilots  
+- enterprise knowledge systems  
+- LLM orchestration pipelines  
+
+---
+
+## Two Modes of Thinking
+
+Wei Skills operates in two complementary modes:
+
+### 1. **Find Truth** → `wei-cross-research`
+Build confidence through **consensus**
+
+### 2. **Test Truth** → `wei-devils-advocate`
+Build confidence through **attack**
+
+---
+
+> First, make models agree.  
+> Then, try to prove them wrong.  
+
+This is how Wei turns AI into a **decision-grade reasoning system**.
 
 ---
 
@@ -54,88 +105,107 @@ Designed for integration into:
 
 | Skill | Description | Status |
 |-------|-------------|--------|
-| [wei-cross-research](#wei-cross-research) | Multi-LLM research synthesis with cross-validated, evidence-grounded answers | ✅ Ready |
-| [wei-devils-advocate](#wei-devils-advocate) | Stress-test ideas by generating counterarguments and adversarial scrutiny | ✅ Ready |
+| [wei-cross-research](#wei-cross-research) | Multi-model research with cross-validated, evidence-grounded answers | ✅ Ready |
+| [wei-devils-advocate](#wei-devils-advocate) | Adversarial reasoning to stress-test ideas and expose risks | ✅ Ready |
 
 ---
 
 # 🧠 wei-cross-research
 
-> Multi-model AI research system for generating **high-confidence, evidence-based answers**.
+> **Find what is most likely true — by forcing models to agree.**  
+> Multi-model research through **cross-validation and consensus building**.
 
-🚀 **Try it now**: Experience the strongest closed-source multi-model cross-validation at [https://www.bigbigai.com/agent/cross-research](https://www.bigbigai.com/agent/cross-research)
+🚀 Try it: https://www.bigbigai.com/agent/cross-research
 
-## What It Does
+---
 
-`wei-cross-research` is an AI orchestration skill that:
+## What It Really Does
 
-1. Sends the same query to multiple LLMs in parallel
-2. Collects independent responses
-3. Compares reasoning paths and factual claims
-4. Uses a judge model to synthesize a final grounded answer
-5. Explicitly surfaces disagreements and uncertainty
+`wei-cross-research` is not just multi-model querying.
 
-This creates a **cross-validated AI research pipeline**, not just a single-model answer.
+It is a **consensus engine**.
+
+Instead of taking the first answer, it:
+
+1. Forces multiple models to think independently  
+2. Compares reasoning and factual claims  
+3. Identifies conflicts and inconsistencies  
+4. Resolves disagreements through a judge model  
+5. Produces a **converged, evidence-grounded answer**
+
+> This is not faster AI.  
+> This is **more trustworthy AI**.
 
 ---
 
 ## When to Use
 
-Use `wei-cross-research` when you need:
+### 🔍 Uncertain questions
+- “What is actually happening?”  
+- “What’s the real impact?”  
 
-### ✅ High-confidence answers
-- Investment / business analysis
-- Technical decision making
-- Research synthesis
+### ⚖️ Ambiguous situations
+- Conflicting sources  
+- Multiple interpretations  
 
-### ✅ Multi-perspective reasoning
-- Complex or ambiguous questions
-- Topics with conflicting viewpoints
-- Areas with incomplete information
-
-### ✅ Reduced hallucination risk
-- When correctness matters more than speed
-- When single-model answers may be unreliable
+### 🧠 High-value decisions
+- Investment analysis  
+- Technical architecture  
+- Research synthesis  
 
 ---
 
-## Why It Works
+## Mental Model
 
-Traditional LLMs:
-> Single model → single answer → hidden uncertainty
+Traditional AI:
+> Ask → Answer  
 
-Wei Cross-Research:
-> Multiple models → competing answers → explicit validation → grounded synthesis
+Wei Cross Research:
+> Ask → Compete → Compare → Resolve → Converge  
 
-This design improves:
-- factual reliability
-- reasoning robustness
-- transparency of uncertainty
+---
+
+## Output Philosophy
+
+- If models **agree** → confidence increases  
+- If models **disagree** → uncertainty is exposed  
+
+> Wei does not hide disagreement.  
+> It uses it.
+
+---
+
+## What You Get
+
+- A synthesized answer  
+- Key points of agreement  
+- Explicit disagreements  
+- Better decision confidence  
 
 ---
 
 ## Cost & Performance Tradeoff
 
-> ⚠️ Important: This is a **multi-model system**, not a single API call.
+> ⚠️ Multi-model system (not a single API call)
 
-Typical usage cost:
-- ~2–3x tokens vs single-model query
-- Higher latency due to parallel execution
+Typical:
+- ~2–3x tokens  
+- higher latency  
 
 Use when:
-- accuracy > cost
-- reliability matters
+- accuracy > speed  
+- reliability matters  
 
 Avoid when:
-- simple Q&A
-- low-stakes queries
+- simple queries  
+- low-stakes use cases  
 
 ---
 
 ## Requirements
 
-- [Bun](https://bun.sh) >= 1.0
-- API keys for supported LLM providers (e.g. OpenRouter, Bailian, etc.)
+- Bun >= 1.0  
+- API keys for LLM providers (OpenRouter, Bailian, etc.)
 
 ---
 
@@ -147,7 +217,6 @@ Avoid when:
 use wei-cross-research
 
 query="What are the economic impacts of AI agents?"
-```
 
 Advanced usage:
 
@@ -168,21 +237,31 @@ maxModels=2
 
 # 🎯 wei-devils-advocate
 
-> Stress-test ideas by generating strong counterarguments and evaluating whether they survive adversarial scrutiny.
+> **Break what seems true — before reality does.**
+> Stress-test ideas through multi-model adversarial reasoning.
 
-🚀 **Try it now**: Experience the strongest closed-source multi-model stress testing at [https://www.bigbigai.com/agent/devils-advocate](https://www.bigbigai.com/agent/devils-advocate)
+🚀 Try it: https://www.bigbigai.com/agent/devils-advocate
 
-## What It Does
+## What It Really Does
 
-`wei-devils-advocate` is an adversarial reasoning skill that:
+`wei-devils-advocate` is not just counterargument generation.
 
-1. Takes your thesis or idea as input
-2. Queries multiple critic models to generate strongest counterarguments
-3. Explores realistic failure scenarios
-4. Uses a judge model to evaluate survivability
-5. Provides a structured verdict with recommendation
+It is a **failure engine**.
 
-This enforces **"default to skepticism, earn confidence"** — strong ideas survive attack, weak ones don't.
+Instead of asking “is this a good idea?”, it asks:
+
+How does this fail?
+
+It works by:
+
+1. Taking your thesis or idea
+2. Generating strongest counterarguments from multiple models
+3. Exposing hidden assumptions
+4. Simulating realistic failure scenarios
+5. Evaluating whether the idea survives attack
+
+> Weak ideas collapse.
+> Strong ideas earn confidence.
 
 ---
 
@@ -190,41 +269,54 @@ This enforces **"default to skepticism, earn confidence"** — strong ideas surv
 
 Use `wei-devils-advocate` when you need:
 
-### ✅ Validation through challenge
-- Product & startup validation
-- Investment / trading risk analysis
-- Strategy stress testing
+### ⚠️ High-stakes decisions
+- Investment / trading
+- Product strategy
+- Architecture choices
 
-### ✅ Identify hidden risks
-- Uncover unchallenged assumptions
-- Expose underestimated risks
-- Surface confirmation bias
+### 🧠 Bias detection
+- When you already “like” the idea
+- When something feels obviously correct
 
-### ✅ High-stakes decisions
-- When "yes" is too easy
-- When you need truth under pressure
-- Before committing significant resources
+### 🔍 Truth over validation
+- Before committing resources
+- Before irreversible decisions
 
 ---
 
-## Why It Works
+## Mental Model
 
-Traditional validation:
-> Seek confirmation → find supporting evidence → false confidence
+Traditional thinking:
 
-Wei Devil's Advocate:
-> Seek disconfirmation → generate counterarguments → adversarial evaluation → earned confidence
+>  Idea → Validate → Confirm
 
-This design exposes:
-- hidden assumptions
-- blind spots and biases
-- failure modes before they happen
+Wei Devil’s Advocate:
+
+>  Idea → Attack → Break → Survive → Decide
+
+## Output Philosophy
+- Assumptions are made explicit
+- Risks are forced to surface
+- Confidence must be earned
+
+> If it survives, you can trust it more.
+>  If it breaks, you saved real cost.
+
+## What You Get
+- Hidden assumptions
+- Strong counterarguments
+- Failure scenarios
+- Survivability verdict:
+    - fatal
+    - risky
+    - robust
+
 
 ---
 
 ## Cost & Performance Tradeoff
 
-> ⚠️ Important: Uses multiple models (2–4x cost vs single query).
+> ⚠️ Important: Uses multiple models (4-6x cost vs single query).
 
 Typical usage cost:
 - ~2–3x tokens for counterargument generation
