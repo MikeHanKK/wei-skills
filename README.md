@@ -189,7 +189,7 @@ Wei Cross Research:
 > ⚠️ Multi-model system (not a single API call)
 
 Typical:
-- ~2–3x tokens  
+- ~4-6x tokens  
 - higher latency  
 
 Use when:
@@ -319,7 +319,7 @@ Wei Devil’s Advocate:
 > ⚠️ Important: Uses multiple models (4-6x cost vs single query).
 
 Typical usage cost:
-- ~2–3x tokens for counterargument generation
+- ~4-6x tokens for counterargument generation
 - Additional tokens for judge evaluation
 
 Use when:
