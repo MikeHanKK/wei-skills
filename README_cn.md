@@ -103,10 +103,10 @@ Wei Skills 以两种互补模式运行：
 
 ## 技能
 
-| 技能 | 描述 | 状态 |
-|------|------|------|
-| [wei-cross-research](#wei-cross-research) | 多模型研究，具有交叉验证、基于证据的答案 | ✅ 就绪 |
-| [wei-devils-advocate](#wei-devils-advocate) | 对抗性推理，用于压力测试想法和暴露风险 | ✅ 就绪 |
+| 技能 | 描述 | 状态 | 安装 |
+|------|------|------|------|
+| [wei-cross-research](#wei-cross-research) | 多模型研究，具有交叉验证、基于证据的答案 | ✅ 就绪 | [OpenClaw](https://clawhub.ai/mikehankk/wei-cross-research) |
+| [wei-devils-advocate](#wei-devils-advocate) | 对抗性推理，用于压力测试想法和暴露风险 | ✅ 就绪 | [OpenClaw](https://clawhub.ai/mikehankk/wei-devils-advocate) |
 
 ---
 
@@ -116,6 +116,7 @@ Wei Skills 以两种互补模式运行：
 > 通过**交叉验证和共识建立**进行多模型研究。
 
 🚀 试用：https://www.bigbigai.com/agent/cross-research
+📦 OpenClaw：https://clawhub.ai/mikehankk/wei-cross-research
 
 ---
 
@@ -242,6 +243,7 @@ maxModels=2
 > 通过多模型对抗性推理对想法进行压力测试。
 
 🚀 试用：https://www.bigbigai.com/agent/devils-advocate
+📦 OpenClaw：https://clawhub.ai/mikehankk/wei-devils-advocate
 
 ## 它真正做什么
 

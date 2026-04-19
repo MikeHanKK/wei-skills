@@ -103,10 +103,10 @@ This is how Wei turns AI into a **decision-grade reasoning system**.
 
 ## Skills
 
-| Skill | Description | Status |
-|-------|-------------|--------|
-| [wei-cross-research](#wei-cross-research) | Multi-model research with cross-validated, evidence-grounded answers | ✅ Ready |
-| [wei-devils-advocate](#wei-devils-advocate) | Adversarial reasoning to stress-test ideas and expose risks | ✅ Ready |
+| Skill | Description | Status | Install |
+|-------|-------------|--------|---------|
+| [wei-cross-research](#wei-cross-research) | Multi-model research with cross-validated, evidence-grounded answers | ✅ Ready | [OpenClaw](https://clawhub.ai/mikehankk/wei-cross-research) |
+| [wei-devils-advocate](#wei-devils-advocate) | Adversarial reasoning to stress-test ideas and expose risks | ✅ Ready | [OpenClaw](https://clawhub.ai/mikehankk/wei-devils-advocate) |
 
 ---
 
@@ -116,6 +116,7 @@ This is how Wei turns AI into a **decision-grade reasoning system**.
 > Multi-model research through **cross-validation and consensus building**.
 
 🚀 Try it: https://www.bigbigai.com/agent/cross-research
+📦 OpenClaw: https://clawhub.ai/mikehankk/wei-cross-research
 
 ---
 
@@ -241,6 +242,7 @@ maxModels=2
 > Stress-test ideas through multi-model adversarial reasoning.
 
 🚀 Try it: https://www.bigbigai.com/agent/devils-advocate
+📦 OpenClaw: https://clawhub.ai/mikehankk/wei-devils-advocate
 
 ## What It Really Does
 
