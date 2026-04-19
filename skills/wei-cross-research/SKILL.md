@@ -1,6 +1,6 @@
 ---
 name: wei-cross-research
-version: 1.4.0
+version: 1.0.0
 description: Cross-validate research answers by querying multiple LLMs in parallel with judge-based synthesis. Reduces hallucination and surfaces model disagreements for high-stakes questions. 交叉研究：多模型并行查询与裁判合成，通过交叉验证降低幻觉、暴露分歧，适用于高 stakes 决策。
 execution:
   timeout: 600 # Maximum allowed is 600 seconds (10 minutes)
@@ -16,7 +16,7 @@ env:
 
 # Wei Cross Research Skill
 
-**Version:** 1.4.0 | **Last updated:** 2026-03-29
+**Version:** 1.0.0 | **Last updated:** 2026-04-19
 
 ## Overview
 
@@ -496,8 +496,4 @@ Confidence: 0.87
 
 | Version | Changes |
 |---|---|
-| 1.4.0 | **BREAKING**: Added `queryType` parameter for simplified model selection. Deprecated `domain` parameter — use `queryType: 'financial'` instead. Removed LLM-based routing from `prompts/router.txt` in favor of config-driven selection. |
-| 1.3.0 | **BREAKING**: Refactored model routing to use `config.json` roles-based system. Model selection is now caller-controlled via `domains` → `required_roles` → `models[].roles` chain. Removed LLM-based routing from `prompts/router.txt`. |
-| 1.2.0 | Added `domain` parameter with `financial` support — finance-specific judge prompt with Bull/Bear/Base Case scenario analysis |
-| 1.1.0 | Added depth mode documentation, error output schemas, confidence scale clarification, security notes, quality evaluation criteria, cost note |
 | 1.0.0 | Initial release |

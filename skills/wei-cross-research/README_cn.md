@@ -12,9 +12,9 @@
 
 | 配置文件 | 适用场景 | 说明 |
 |---------|---------|------|
-| `config_global.json.example` | **默认推荐** | 支持 OpenRouter 全球访问，包含最丰富的模型选择 |
-| `config_cn.json.example` | 中国用户 | 优化 OpenRouter 中国访问，去除中国受限模型 |
-| `config_dashscope.json.example` | 阿里云用户 | 仅使用阿里云 DashScope/Bailian 模型，无需 OpenRouter |
+| `config_global_example.json` | **默认推荐** | 支持 OpenRouter 全球访问，包含最丰富的模型选择 |
+| `config_cn_example.json` | 中国用户 | 优化 OpenRouter 中国访问，去除中国受限模型 |
+| `config_dashscope_example.json` | 阿里云用户 | 仅使用阿里云 DashScope/Bailian 模型，无需 OpenRouter |
 
 ---
 
@@ -26,13 +26,13 @@
 
 ```bash
 # 默认配置（全球访问，推荐）
-cp config_global.json.example config.json
+cp config_global_example.json config.json
 
 # 中国优化配置（去除受限模型）
-cp config_cn.json.example config.json
+cp config_cn_example.json config.json
 
 # 阿里云 DashScope 配置（无需 OpenRouter）
-cp config_dashscope.json.example config.json
+cp config_dashscope_example.json config.json
 ```
 
 ### 2. 配置环境变量
@@ -81,7 +81,7 @@ bun run scripts/index.ts "测试配置是否生效"
 
 ## 配置文件详解
 
-### config_global.json.example（默认配置）
+### config_global_example.json（默认配置）
 
 **适用场景**：全球访问，拥有 OpenRouter API 密钥
 
@@ -108,7 +108,7 @@ bun run scripts/index.ts "测试配置是否生效"
 
 ---
 
-### config_cn.json.example（中国优化）
+### config_cn_example.json（中国优化）
 
 **适用场景**：中国网络环境，OpenRouter 访问受限
 
@@ -135,7 +135,7 @@ bun run scripts/index.ts "测试配置是否生效"
 
 ---
 
-### config_dashscope.json.example（阿里云）
+### config_dashscope_example.json（阿里云）
 
 **适用场景**：无法访问 OpenRouter，但拥有阿里云 DashScope API 密钥
 
@@ -261,7 +261,7 @@ bun run scripts/index.ts "测试配置是否生效"
 
 **解决**：
 1. 检查 `OPENROUTER_API_KEY` 是否正确设置
-2. 尝试切换为 `config_cn.json.example`
+2. 尝试切换为 `config_cn_example.json`
 3. 检查网络是否能访问 `https://openrouter.ai`
 
 ### DashScope 连接问题
@@ -269,7 +269,7 @@ bun run scripts/index.ts "测试配置是否生效"
 **症状**：模型返回错误或超时
 
 **解决**：
-1. 确认使用 `config_dashscope.json.example`
+1. 确认使用 `config_dashscope_example.json`
 2. 检查 `DASHSCOPE_API_KEY` 是否有效
 3. 查看阿里云控制台确认模型是否已开通
 

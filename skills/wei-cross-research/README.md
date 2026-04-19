@@ -12,9 +12,9 @@ The project provides the following example configuration files. Choose based on 
 
 | Config File | Use Case | Description |
 |-------------|----------|-------------|
-| `config_global.json.example` | **Default Recommended** | OpenRouter global access with the richest model selection |
-| `config_cn.json.example` | China Users | Optimized for OpenRouter access from China, removes China-restricted models |
-| `config_dashscope.json.example` | Alibaba Cloud Users | Uses only Alibaba Cloud DashScope/Bailian models, no OpenRouter required |
+| `config_global_example.json` | **Default Recommended** | OpenRouter global access with the richest model selection |
+| `config_cn_example.json` | China Users | Optimized for OpenRouter access from China, removes China-restricted models |
+| `config_dashscope_example.json` | Alibaba Cloud Users | Uses only Alibaba Cloud DashScope/Bailian models, no OpenRouter required |
 
 ---
 
@@ -26,13 +26,13 @@ Copy the appropriate example file to `config.json` based on your network:
 
 ```bash
 # Default config (global access, recommended)
-cp config_global.json.example config.json
+cp config_global_example.json config.json
 
 # China-optimized config (removes restricted models)
-cp config_cn.json.example config.json
+cp config_cn_example.json config.json
 
 # Alibaba Cloud DashScope config (no OpenRouter needed)
-cp config_dashscope.json.example config.json
+cp config_dashscope_example.json config.json
 ```
 
 ### 2. Configure Environment Variables
@@ -81,7 +81,7 @@ bun run scripts/index.ts "Test if configuration works"
 
 ## Configuration Details
 
-### config_global.json.example (Default)
+### config_global_example.json (Default)
 
 **Use Case**: Global access with OpenRouter API key
 
@@ -108,7 +108,7 @@ bun run scripts/index.ts "Test if configuration works"
 
 ---
 
-### config_cn.json.example (China Optimized)
+### config_cn_example.json (China Optimized)
 
 **Use Case**: China network environment with restricted OpenRouter access
 
@@ -135,7 +135,7 @@ bun run scripts/index.ts "Test if configuration works"
 
 ---
 
-### config_dashscope.json.example (Alibaba Cloud)
+### config_dashscope_example.json (Alibaba Cloud)
 
 **Use Case**: Cannot access OpenRouter but have Alibaba Cloud DashScope API key
 
@@ -261,7 +261,7 @@ Supports any OpenAI-compatible API:
 
 **Solutions**:
 1. Check if `OPENROUTER_API_KEY` is set correctly
-2. Try switching to `config_cn.json.example`
+2. Try switching to `config_cn_example.json`
 3. Check if your network can access `https://openrouter.ai`
 
 ### DashScope Connection Issues
@@ -269,7 +269,7 @@ Supports any OpenAI-compatible API:
 **Symptoms**: Model errors or timeouts
 
 **Solutions**:
-1. Confirm using `config_dashscope.json.example`
+1. Confirm using `config_dashscope_example.json`
 2. Check if `DASHSCOPE_API_KEY` is valid
 3. Check Alibaba Cloud console to confirm models are activated
 

@@ -1,6 +1,6 @@
 ---
 name: wei-devils-advocate
-version: 1.1.0
+version: 1.0.0
 description: Stress-test ideas using multiple LLMs in adversarial roles to generate counterarguments, cross-check reasoning, and expose hidden risks and failure modes. 易找茬：通过多模型对抗式分析与交叉验证，从不同视角生成反对意见并揭示潜在风险。
 execution:
   timeout: 600
@@ -16,7 +16,7 @@ env:
 
 # Wei Devil's Advocate Skill
 
-**Version:** 1.1.0 | **Last updated:** 2026-04-07
+**Version:** 1.0.0 | **Last updated:** 2026-04-07
 
 ---
 
